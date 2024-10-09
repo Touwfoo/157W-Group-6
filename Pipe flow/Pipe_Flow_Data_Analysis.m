@@ -15,11 +15,11 @@ clc
 
 %Importing data
 data=readtable("Pipe_Flow_Data.xlsx");
-IDK1 = data.Pressure1;
-PipeNumber = data.PipeNumber;
+Time = data.Time; %Units: s
+PipeNumber = data.PipeNumber; %Unitless
 Temperature = data.Temperature; %Units: Kelvin
 Frequency = data.Frequency; %Units: Hz????
-IDK2 = data.Pressure2;
+IDK2 = data.PressureDrop; %Units: ???
 
 %Pipe Inner Diamaters (in order of 1, 2, 3, 4)
 PipeDiameter = [8.15; 11.8; 17.5; 9.93]; %Units: mm
