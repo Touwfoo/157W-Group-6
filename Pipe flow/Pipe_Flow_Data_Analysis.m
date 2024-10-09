@@ -48,16 +48,16 @@ f2_theoretical = (0.790 * log(Re2) - 1.64).^(-2);
 f3_theoretical = (0.790 * log(Re3) - 1.64).^(-2);
 f4_theoretical = (0.790 * log(Re4) - 1.64).^(-2);
 
-f1 = (PressureDrop(1:10) .* (Velocity(1:10) ./ PipeLength(1))) ./ (0.5 * Density(1:10) .* (Velocity(1:10)).^2);
-f2 = (PressureDrop(11:20) .* (Velocity(11:20) ./ PipeLength(2))) ./ (0.5 * Density(11:20) .* (Velocity(11:20)).^2);
-f3 = (PressureDrop(21:30) .* (Velocity(21:30) ./ PipeLength(3))) ./ (0.5 * Density(21:30) .* (Velocity(21:30)).^2);
-f4 = (PressureDrop(31:40) .* (Velocity(31:40) ./ PipeLength(4))) ./ (0.5 * Density(31:40) .* (Velocity(31:40)).^2);
+f1 = PressureDrop(1:10) ./ (((PipeLength(1) ./ PipeDiameter(1))) .* (0.5 * Density(1:10) .* (Velocity(1:10)).^2));
+f2 = PressureDrop(11:20) ./ (((Velocity(11:20) ./ PipeLength(2))) .* (0.5 * Density(11:20) .* (Velocity(11:20)).^2));
+f3 = PressureDrop(21:30) ./ (((Velocity(21:30) ./ PipeLength(3))) .* (0.5 * Density(21:30) .* (Velocity(21:30)).^2));
+f4 = PressureDrop(31:40) ./ (((Velocity(31:40) ./ PipeLength(4))) .* (0.5 * Density(31:40) .* (Velocity(31:40)).^2));
 
 % plot stuff
 
 figure(1);
 hold on
-%plot(Re1, f1, '-o');
+plot(Re1, f1, '-o');
 plot(Re1, f1_theoretical);
 hold off
 xlabel('Re');
