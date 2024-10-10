@@ -119,8 +119,8 @@ xlabel('Re');
 ylabel('Friction Factor');
 title('Moody Plot for Rough Pipe');
 legend('Experimental', 'Theoretical', 'Fitted Line');
-%%
-
+%% Formulas
+%% Table approximations
 % 1st order approximation for water density (kg/m^3)
 function ans = waterDensity(temperatureK)
     m = -0.00012;
@@ -133,4 +133,73 @@ function ans = waterDynViscosity(temperatureK)
     m = -2.05e-5;
     b = 0.891e-3;
     ans = b + m * (temperatureK - 273.15 - 25);
+end
+
+%% calculate friction factor
+% experimental
+function f = experimentalFriction(Pressure_drop, Diameter, Length, density, flow_velocity)
+    f = (Pressure_drop * Diameter / Length)/(0.5 * density * flow_velocity^2);
+end
+
+% theoretical laminar
+function f = theoreticalLaminarFrictionSmooth(Re)
+    f = 64/Re;
+end
+
+% theoretical turbulent smooth - Petukhov formula - valid for 1E4 < Re < 5E6
+function f = theoreticalTurbulentFrictionSmooth(Re_D)
+    f = (0.790 * ln(Re_D) - 1.64)^-2;
+end
+
+% theoretical turbulent rough - Nikuradse's formula
+function f = theoreticalTurbulentFrictionRough()
+    % There's only one rough pipe, so the roughness is directly calculated inside this function
+    D = 9.93E-3;
+    h = 0.305E-3;
+    P = 3.08E-3;
+    roughness = h * exp(3.4 - 0.42 * (P/h)^0.46);
+    f = (1.74 + 2.0*log10(0.5*D/roughness))^-2;
+end
+
+%% Error Analysis
+% standard error
+function Sy = StandardError(Y_actual, Y_fitted)
+    N = length(Y_actual);
+    sum = 0;
+    for i = 1:1:N
+        sum = sum + (Y_actual - Y_fitted)^2;
+    end
+    Sy = sqrt(sum / (N - 2));
+end
+
+% Precision of a measurement
+function Py = Precision_measurement(Y_actual, Y_fitted)
+    % spits out a vector with each of the precision uncertainty for each measurement
+    N = length(Y_actual);
+    x_avg = sum(Y_actual)/N;
+    sum_square = 0;
+    for i = 1:1:N
+        sum_square = sum_square + (Y_actual(i))^2;
+    end
+    Sxx = sum_square - 1/N * sum(Y_actual)^2;
+    Py = zeros(N,1);
+    for i = 1:1:N
+        Py(i) = 2 * sqrt(StandardError(Y_actual, Y_fitted)^2 * (1 + 1/N + (Y_actual(i)-x_avg)^2/Sxx));
+    end
+end
+
+% Precision of a curve
+function Py = Precision_curve(Y_actual, Y_fitted)
+    % spits out a vector with each of the precision uncertainty for each measurement
+    N = length(Y_actual);
+    x_avg = sum(Y_actual)/N;
+    sum_square = 0;
+    for i = 1:1:N
+        sum_square = sum_square + (Y_actual(i))^2;
+    end
+    Sxx = sum_square - 1/N * sum(Y_actual)^2;
+    Py = zeros(N,1);
+    for i = 1:1:N
+        Py(i) = 2 * sqrt(StandardError(Y_actual, Y_fitted)^2 * (1/N + (Y_actual(i)-x_avg)^2/Sxx));
+    end
 end
