@@ -56,46 +56,69 @@ f_theoretical(31:40) = (1.74 + 2 * log10(PipeDiameter(31:40) / (2 * epsilon_s)))
 
 f_experimental = PressureDrop ./ (((PipeLength ./ PipeDiameter)) .* (0.5 * Density .* (Velocity).^2));
 
-% plot stuff
+%% poly (1st degree) fitting
+
+p1 = polyfit(Re(1:9), f_experimental(1:9), 1);
+x1 = linspace(Re(1), Re(10), 10);
+y1 = polyval(p1, x1);
+
+p2 = polyfit(Re(11:19), f_experimental(11:19), 1);
+x2 = linspace(Re(11), Re(20), 10);
+y2 = polyval(p2, x2);
+
+p3 = polyfit(Re(21:29), f_experimental(21:29), 1);
+x3 = linspace(Re(21), Re(30), 10);
+y3 = polyval(p3, x3);
+
+p4 = polyfit(Re(31:39), f_experimental(31:39), 1);
+x4 = linspace(Re(31), Re(40), 10);
+y4 = polyval(p4, x4);
+
 %%
+% plot stuff
 figure(1);
 hold on
 plot(Re(1:10), f_experimental(1:10), '-o');
 plot(Re(1:10), f_theoretical(1:10));
+plot(x1,y1);
 hold off
 xlabel('Re');
 ylabel('Friction Factor');
 title('Moody Plot for Small Smooth Pipe');
-%%
+legend('Experimental', 'Theoretical', 'Fitted Line');
 
 figure(2);
 hold on
 plot(Re(11:20), f_experimental(11:20), '-o');
 plot(Re(11:20), f_theoretical(11:20));
+plot(x2,y2);
 hold off
 xlabel('Re');
 ylabel('Friction Factor');
 title('Moody Plot for Medium Smooth Pipe');
-%%
+legend('Experimental', 'Theoretical', 'Fitted Line');
 
 figure(3);
 hold on
 plot(Re(21:30), f_experimental(21:30), '-o');
 plot(Re(21:30), f_theoretical(21:30));
+plot(x3,y3);
 hold off
 xlabel('Re');
 ylabel('Friction Factor');
 title('Moody Plot for Large Smooth Pipe');
-%%
+legend('Experimental', 'Theoretical', 'Fitted Line');
 
 figure(4);
 hold on
 plot(Re(31:40), f_experimental(31:40), '-o');
 plot(Re(31:40), f_theoretical(31:40));
+plot(x4,y4);
 hold off
 xlabel('Re');
 ylabel('Friction Factor');
 title('Moody Plot for Rough Pipe');
+legend('Experimental', 'Theoretical', 'Fitted Line');
 %%
 
 % 1st order approximation for water density (kg/m^3)

@@ -48,20 +48,31 @@ end
 
 Re = (Density .* Velocity .* PipeDiameter) ./ DynViscosity;
 
-f_theoretical = (0.790 * log(Re) - 1.64).^(-2); % theoretical emperical calculation for smooth pipe
+f_theoretical = (0.790 * log(Re) - 1.64).^(-2); % theoretical empirical calculation for smooth pipe
 h = 0.305 / 1000;
 P = 3.08 / 1000;
-epsilon_S = h * exp(3.4 - 0.42 * (P / h)^0.46);
-f_theoretical(31:40) = ()^(-2)
+epsilon_s = h * exp(3.4 - 0.42 * (P / h)^0.46);
+f_theoretical(31:40) = (1.74 + 2 * log10(PipeDiameter(31:40) / (2 * epsilon_s))).^(-2); % theoretical empirical calculation for rough pipe
 
 f_experimental = PressureDrop ./ (((PipeLength ./ PipeDiameter)) .* (0.5 * Density .* (Velocity).^2));
 
-% plot stuff
+%% poly (1st degree) fitting
+
+p = zeros(4,10);
+x = zeros
+for a=1:4
+    p(a,:) = polyfit(Re(1:9), f_experimental(1:9), 1);
+    x(a) = linspace(Re(1), Re(10), 10);
+    y(a) = polyval(p1, x1);
+end
+
 %%
+% plot stuff
 figure(1);
 hold on
 plot(Re(1:10), f_experimental(1:10), '-o');
 plot(Re(1:10), f_theoretical(1:10));
+plot(x1,y1);
 hold off
 xlabel('Re');
 ylabel('Friction Factor');
