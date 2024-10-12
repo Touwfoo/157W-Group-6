@@ -129,67 +129,106 @@ Py_hat4 = 2 * sqrt(Sy4.^2 * (1 / length(Re(31:39)) + (Re(31:39) - xAvg4).^2 ./ S
                         %pipe 1
 figure(1);
 hold on
-errorbar(Re(1:10), f_experimental(1:10),Py1, 's','LineWidth',1.5); % error bar
-loglog(Re(1:10), f_experimental(1:10), 'x','Color', [0 1 0]); % experimental friction
-loglog(Re(1:10), f_theoretical(1:10), 'o','Color', [1 0 0]); % theoretical friction
-plot(Re(1:10),exp(y1),'Color', [0 0 1]); % Fitted Line
-plot(Re(1:10),exp(y1)+Py_hat1,'--','Color', [0 0 0]);
-plot(Re(1:10),exp(y1)-Py_hat1,'--','Color', [0 0 0]);
+loglog(Re(1:10), f_experimental(1:10), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(1:10), f_theoretical(1:10), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(1:10),exp(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)','Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
                   
-                        %pipe 2
 figure(2);
 hold on
-errorbar(Re(11:19), f_experimental(11:19),Py2, 's','LineWidth',1.5); % error bar
-loglog(Re(11:19), f_experimental(11:19), 'x','Color', [0 1 0]); % experimental friction
-loglog(Re(11:19), f_theoretical(11:19), 'o','Color', [1 0 0]); % theoretical friction
-plot(Re(11:19),exp(y2),'Color', [0 0 1]); % Fitted Line
-plot(Re(11:19),exp(y2)+Py_hat2,'--','Color', [0 0 0]);
-plot(Re(11:19),exp(y2)-Py_hat2,'--','Color', [0 0 0]);
+errorbar(Re(1:10), f_experimental(1:10),Py1, 's','LineWidth',1.5); % error bar
+plot(Re(1:10),exp(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(Re(1:10),exp(y1)+Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(1:10),exp(y1)-Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)','Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
-
-                         %pipe 3
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+                        %pipe 2
 figure(3);
 hold on
-errorbar(Re(21:29), f_experimental(21:29),Py3, 's','LineWidth',1.5); % error bar
-loglog(Re(21:29), f_experimental(21:29), 'x','Color', [0 1 0]); % experimental friction
-loglog(Re(21:29), f_theoretical(21:29), 'o','Color', [1 0 0]); % theoretical friction
-plot(Re(21:29),exp(y3),'Color', [0 0 1]); % Fitted Line
-plot(Re(21:29),exp(y3)+Py_hat3,'--','Color', [0 0 0]);
-plot(Re(21:29),exp(y3)-Py_hat3,'--','Color', [0 0 0]);
+loglog(Re(11:19), f_experimental(11:19), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(11:19), f_theoretical(11:19), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(11:19),exp(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
-title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)','Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+title('Moody Plot for Medium Smooth Pipe');
+legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
+
+figure(4);
+hold on
+errorbar(Re(11:19), f_experimental(11:19),Py2, 's','LineWidth',1.5); % error bar
+plot(Re(11:19),exp(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(Re(11:19),exp(y2)+Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(11:19),exp(y2)-Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
+
+hold off
+xlabel('log(Re)');
+ylabel('log(fr) [Friction Factor]');
+title('Moody Plot for Medium Smooth Pipe');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+
+                         %pipe 3
+figure(5);
+hold on
+loglog(Re(21:29), f_experimental(21:29), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(21:29), f_theoretical(21:29), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(21:29),exp(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+
+hold off
+xlabel('log(Re)');
+ylabel('log(fr) [Friction Factor]');
+title('Moody Plot for Large Smooth Pipe');
+legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
+
+figure(6);
+hold on
+errorbar(Re(21:29), f_experimental(21:29),Py3, 's','LineWidth',1.5); % error bar
+plot(Re(21:29),exp(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(Re(21:29),exp(y3)+Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(21:29),exp(y3)-Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
+
+hold off
+xlabel('log(Re)');
+ylabel('log(fr) [Friction Factor]');
+title('Moody Plot for Large Smooth Pipe');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
 
 
                          %pipe 4
-figure(4);
+figure(7);
 hold on
-errorbar(Re(31:39), f_experimental(31:39),Py4, 's','LineWidth',1.5); % error bar
-loglog(Re(31:39), f_experimental(31:39), 'x','Color', [0 1 0]); % experimental friction
-loglog(Re(31:39), f_theoretical(31:39), 'o','Color', [1 0 0]); % theoretical friction
-plot(Re(31:39),exp(y4),'Color', [0 0 1]); % Fitted Line
-plot(Re(31:39),exp(y4)+Py_hat4,'--','Color', [0 0 0]);
-plot(Re(31:39),exp(y4)-Py_hat4,'--','Color', [0 0 0]);
+loglog(Re(31:39), f_experimental(31:39), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(31:39), f_theoretical(31:39), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(31:39),exp(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
-title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)','Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+title('Moody Plot for Square Rough Pipe');
+legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
+
+figure(8);
+hold on
+errorbar(Re(31:39), f_experimental(31:39),Py4, 's','LineWidth',1.5); % error bar
+plot(Re(31:39),exp(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(Re(31:39),exp(y4)+Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(31:39),exp(y4)-Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+
+hold off
+xlabel('log(Re)');
+ylabel('log(fr) [Friction Factor]');
+title('Moody Plot for Square Rough Pipe');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
 
 
 
