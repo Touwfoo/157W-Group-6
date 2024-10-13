@@ -58,17 +58,17 @@ f_experimental = PressureDrop ./ (((PipeLength ./ PipeDiameter)) .* (0.5 * Densi
 
 %% poly (1st degree) fitting
 
-p1 = polyfit(Re(1:10), log10(f_experimental(1:10)), 1);% Log fit for the error
-y1 = polyval(p1, Re(1:10));
+p1 = polyfit(log10(Re(1:9)), log10(f_experimental(1:9)), 1);% Log fit for the error
+y1 = polyval(p1, log10(Re(1:10)));
 
-p2 = polyfit(Re(11:19), log10(f_experimental(11:19)), 1);% Log fit for the error
-y2 = polyval(p2, Re(11:20));
+p2 = polyfit(log10(Re(11:19)), log10(f_experimental(11:19)), 1);% Log fit for the error
+y2 = polyval(p2, log10(Re(11:20)));
 
-p3 = polyfit(Re(21:29), log10(f_experimental(21:29)), 1);% Log fit for the error
-y3 = polyval(p3, Re(21:30));
+p3 = polyfit(log10(Re(21:29)), log10(f_experimental(21:29)), 1);% Log fit for the error
+y3 = polyval(p3, log10(Re(21:30)));
 
-p4 = polyfit(Re(31:39), log10(f_experimental(31:39)), 1);% Log fit for the error
-y4 = polyval(p4, Re(31:40));
+p4 = polyfit(log10(Re(31:39)), log10(f_experimental(31:39)), 1);% Log fit for the error
+y4 = polyval(p4, log10(Re(31:40)));
 
 %% Error Analysis 
 
