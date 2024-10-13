@@ -62,13 +62,13 @@ p1 = polyfit(Re(1:10), log10(f_experimental(1:10)), 1);% Log fit for the error
 y1 = polyval(p1, Re(1:10));
 
 p2 = polyfit(Re(11:19), log10(f_experimental(11:19)), 1);% Log fit for the error
-y2 = polyval(p2, Re(11:19));
+y2 = polyval(p2, Re(11:20));
 
 p3 = polyfit(Re(21:29), log10(f_experimental(21:29)), 1);% Log fit for the error
-y3 = polyval(p3, Re(21:29));
+y3 = polyval(p3, Re(21:30));
 
 p4 = polyfit(Re(31:39), log10(f_experimental(31:39)), 1);% Log fit for the error
-y4 = polyval(p4, Re(31:39));
+y4 = polyval(p4, Re(31:40));
 
 %% Error Analysis 
 
@@ -85,32 +85,32 @@ Py_hat1 = 2 * sqrt(Sy1.^2 * (1 / length(Re(1:10)) + (Re(1:10) - xAvg1).^2 ./ Sxx
 
 % Pipe 2
 % Calculate the standard error
-Sy2 = sqrt(1 / (length(Re(11:19)) - 2) * sum((f_experimental(11:19) - 10.^(y2)).^2)); % Standard error
-xAvg2 = mean(Re(11:19)); % Average of Reynolds numbers
-Sxx2 = sum((Re(11:19)).^2) - (1 / length(Re(11:19))) * (sum(Re(11:19)))^2; % Sample variance
+Sy2 = sqrt(1 / (length(Re(11:20)) - 2) * sum((f_experimental(11:20) - 10.^(y2)).^2)); % Standard error
+xAvg2 = mean(Re(11:20)); % Average of Reynolds numbers
+Sxx2 = sum((Re(11:20)).^2) - (1 / length(Re(11:20))) * (sum(Re(11:20)))^2; % Sample variance
 % Calculate Py and Py_hat 
-Py2 = 2 * sqrt(Sy2.^2 * (1 + 1 / length(Re(11:19)) + (Re(11:19) - xAvg2).^2 ./ Sxx2)); % Precision uncertainty of measurement
-Py_hat2 = 2 * sqrt(Sy2.^2 * (1 / length(Re(11:19)) + (Re(11:19) - xAvg2).^2 ./ Sxx2)); % Precision uncertainty of curve fit
+Py2 = 2 * sqrt(Sy2.^2 * (1 + 1 / length(Re(11:20)) + (Re(11:20) - xAvg2).^2 ./ Sxx2)); % Precision uncertainty of measurement
+Py_hat2 = 2 * sqrt(Sy2.^2 * (1 / length(Re(11:20)) + (Re(11:20) - xAvg2).^2 ./ Sxx2)); % Precision uncertainty of curve fit
 
 
 %Pipe 3
 % Calculate the standard error
-Sy3 = sqrt(1 / (length(Re(21:29)) - 2) * sum((f_experimental(21:29) - 10.^(y3)).^2)); % Standard error
-xAvg3 = mean(Re(21:29)); % Average of Reynolds numbers
-Sxx3 = sum((Re(21:29)).^2) - (1 / length(Re(21:29))) * (sum(Re(21:29)))^2; % Sample variance
+Sy3 = sqrt(1 / (length(Re(21:30)) - 2) * sum((f_experimental(21:30) - 10.^(y3)).^2)); % Standard error
+xAvg3 = mean(Re(21:30)); % Average of Reynolds numbers
+Sxx3 = sum((Re(21:30)).^2) - (1 / length(Re(21:30))) * (sum(Re(21:30)))^2; % Sample variance
 % Calculate Py and Py_hat 
-Py3 = 2 * sqrt(Sy3.^2 * (1 + 1 / length(Re(21:29)) + (Re(21:29) - xAvg3).^2 ./ Sxx3)); % Precision uncertainty of measurement
-Py_hat3 = 2 * sqrt(Sy3.^2 * (1 / length(Re(21:29)) + (Re(21:29) - xAvg3).^2 ./ Sxx3)); % Precision uncertainty of curve fit
+Py3 = 2 * sqrt(Sy3.^2 * (1 + 1 / length(Re(21:30)) + (Re(21:30) - xAvg3).^2 ./ Sxx3)); % Precision uncertainty of measurement
+Py_hat3 = 2 * sqrt(Sy3.^2 * (1 / length(Re(21:30)) + (Re(21:30) - xAvg3).^2 ./ Sxx3)); % Precision uncertainty of curve fit
 
 
 %Pipe 4
 % Calculate the standard error
-Sy4 = sqrt(1 / (length(Re(31:39)) - 2) * sum((f_experimental(31:39) - 10.^(y4)).^2)); % Standard error
-xAvg4 = mean(Re(31:39)); % Average of Reynolds numbers
-Sxx4 = sum((Re(31:39)).^2) - (1 / length(Re(31:39))) * (sum(Re(31:39)))^2; % Sample variance
+Sy4 = sqrt(1 / (length(Re(31:40)) - 2) * sum((f_experimental(31:40) - 10.^(y4)).^2)); % Standard error
+xAvg4 = mean(Re(31:40)); % Average of Reynolds numbers
+Sxx4 = sum((Re(31:40)).^2) - (1 / length(Re(31:40))) * (sum(Re(31:40)))^2; % Sample variance
 % Calculate Py and Py_hat 
-Py4 = 2 * sqrt(Sy4.^2 * (1 + 1 / length(Re(31:39)) + (Re(31:39) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of measurement
-Py_hat4 = 2 * sqrt(Sy4.^2 * (1 / length(Re(31:39)) + (Re(31:39) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of curve fit
+Py4 = 2 * sqrt(Sy4.^2 * (1 + 1 / length(Re(31:40)) + (Re(31:40) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of measurement
+Py_hat4 = 2 * sqrt(Sy4.^2 * (1 / length(Re(31:40)) + (Re(31:40) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of curve fit
 
 
 
@@ -143,6 +143,7 @@ figure(2);
 hold on
 errorbar(Re(1:10), f_experimental(1:10),Py1, 's','LineWidth',1.5); % error bar
 plot(Re(1:10),10.^(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(1:10), f_theoretical(1:10), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
 plot(Re(1:10),10.^(y1)+Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
 plot(Re(1:10),10.^(y1)-Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
 
@@ -150,13 +151,13 @@ hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
                         %pipe 2
 figure(3);
 hold on
-loglog(Re(11:19), f_experimental(11:19), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(11:19), f_theoretical(11:19), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(11:19),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(11:20), f_experimental(11:20), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(11:20), f_theoretical(11:20), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(11:20),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -166,23 +167,24 @@ legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
 
 figure(4);
 hold on
-errorbar(Re(11:19), f_experimental(11:19),Py2, 's','LineWidth',1.5); % error bar
-plot(Re(11:19),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-plot(Re(11:19),10.^(y2)+Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(11:19),10.^(y2)-Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(Re(11:20), f_experimental(11:20),Py2, 's','LineWidth',1.5); % error bar
+plot(Re(11:20),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(11:20), f_theoretical(11:20), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(11:20),10.^(y2)+Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(11:20),10.^(y2)-Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Medium Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
 
                          %pipe 3
 figure(5);
 hold on
-loglog(Re(21:29), f_experimental(21:29), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(21:29), f_theoretical(21:29), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(21:29),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(21:30), f_experimental(21:30), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(21:30), f_theoretical(21:30), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(21:30),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -192,43 +194,46 @@ legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
 
 figure(6);
 hold on
-errorbar(Re(21:29), f_experimental(21:29),Py3, 's','LineWidth',1.5); % error bar
-plot(Re(21:29),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-plot(Re(21:29),10.^(y3)+Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(21:29),10.^(y3)-Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(Re(21:30), f_experimental(21:30),Py3, 's','LineWidth',1.5); % error bar
+plot(Re(21:30),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(21:30), f_theoretical(21:30), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(21:30),10.^(y3)+Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(21:30),10.^(y3)-Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Large Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data', 'Error Lines (Precision uncertainity of the curve fit)');
 
 
                          %pipe 4
 figure(7);
 hold on
-loglog(Re(31:39), f_experimental(31:39), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(31:39), f_theoretical(31:39), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(31:39),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(31:40), f_experimental(31:40), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+loglog(Re(31:40), f_theoretical(31:40), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(31:40),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Square Rough Pipe');
-legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
+legend('Experimental Data', 'Theoretical (Nikuradse) Data', 'Fitted Line');
 
 figure(8);
 hold on
-errorbar(Re(31:39), f_experimental(31:39),Py4, 's','LineWidth',1.5); % error bar
-plot(Re(31:39),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-plot(Re(31:39),10.^(y4)+Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(31:39),10.^(y4)-Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(Re(31:40), f_experimental(31:40),Py4, 's','LineWidth',1.5); % error bar
+plot(Re(31:40),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+loglog(Re(31:40), f_theoretical(31:40), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(Re(31:40),10.^(y4)+Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+plot(Re(31:40),10.^(y4)-Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+
 
 hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Square Rough Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
 
 
 
