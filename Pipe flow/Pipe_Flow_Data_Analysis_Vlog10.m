@@ -129,9 +129,9 @@ Py_hat4 = 2 * sqrt(Sy4.^2 * (1 / length(Re(31:40)) + (Re(31:40) - xAvg4).^2 ./ S
                         %pipe 1
 figure(1);
 hold on
-loglog(Re(1:10), f_experimental(1:10), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(1:10), f_theoretical(1:10), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(1:10),10.^(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(1:10)), log10(f_experimental(1:10)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+plot(log10(Re(1:10)), log10(f_theoretical(1:10)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(1:10)),y1,'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -141,11 +141,11 @@ legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
                   
 figure(2);
 hold on
-errorbar(Re(1:10), f_experimental(1:10),Py1, 's','LineWidth',1.5); % error bar
-plot(Re(1:10),10.^(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-loglog(Re(1:10), f_theoretical(1:10), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(1:10),10.^(y1)+Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(1:10),10.^(y1)-Py_hat1,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(log10(Re(1:10)), log10(f_experimental(1:10)),log10(f_experimental(1:10) + Py1) - log10(f_experimental(1:10)), 's','LineWidth',1.5); % error bar
+plot(log10(Re(1:10)),(y1),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(1:10)), log10(f_theoretical(1:10)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(1:10)),log10(10.^(y1)+Py_hat1),'--','Color', [0 0 0], 'lineWidth', 2);
+plot(log10(Re(1:10)), log10(10.^(y1)-Py_hat1),'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
@@ -155,9 +155,9 @@ legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'The
                         %pipe 2
 figure(3);
 hold on
-loglog(Re(11:20), f_experimental(11:20), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(11:20), f_theoretical(11:20), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(11:20),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(11:20)), log10(f_experimental(11:20)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+plot(log10(Re(11:20)), log10(f_theoretical(11:20)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(11:20)),(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -167,11 +167,11 @@ legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
 
 figure(4);
 hold on
-errorbar(Re(11:20), f_experimental(11:20),Py2, 's','LineWidth',1.5); % error bar
-plot(Re(11:20),10.^(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-loglog(Re(11:20), f_theoretical(11:20), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(11:20),10.^(y2)+Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(11:20),10.^(y2)-Py_hat2,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(log10(Re(11:20)), log10(f_experimental(11:20)),log10(f_experimental(11:20) + Py2) - log10(f_experimental(11:20)), 's','LineWidth',1.5); % error bar
+plot(log10(Re(11:20)),(y2),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(11:20)), log10(f_theoretical(11:20)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(11:20)),log10(10.^(y2)+Py_hat2),'--','Color', [0 0 0], 'lineWidth', 2);
+plot(log10(Re(11:20)),log10(10.^(y2)-Py_hat2),'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
@@ -182,9 +182,9 @@ legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theo
                          %pipe 3
 figure(5);
 hold on
-loglog(Re(21:30), f_experimental(21:30), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(21:30), f_theoretical(21:30), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(21:30),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(21:30)), log10(f_experimental(21:30)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+plot(log10(Re(21:30)), log10(f_theoretical(21:30)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(21:30)), (y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -194,11 +194,11 @@ legend('Experimental Data', 'Theoretical (Petukhov) Data', 'Fitted Line');
 
 figure(6);
 hold on
-errorbar(Re(21:30), f_experimental(21:30),Py3, 's','LineWidth',1.5); % error bar
-plot(Re(21:30),10.^(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-loglog(Re(21:30), f_theoretical(21:30), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(21:30),10.^(y3)+Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(21:30),10.^(y3)-Py_hat3,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(log10(Re(21:30)), log10(f_experimental(21:30)),log10(f_experimental(21:30) + Py3) - log10(f_experimental(21:30)), 's','LineWidth',1.5); % error bar
+plot(log10(Re(21:30)),(y3),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(21:30)), log10(f_theoretical(21:30)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(21:30)),log10(10.^(y3)+Py_hat3),'--','Color', [0 0 0], 'lineWidth', 2);
+plot(log10(Re(21:30)), log10(10.^(y3)-Py_hat3),'--','Color', [0 0 0], 'lineWidth', 2);
 
 hold off
 xlabel('log(Re)');
@@ -210,9 +210,9 @@ legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theo
                          %pipe 4
 figure(7);
 hold on
-loglog(Re(31:40), f_experimental(31:40), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
-loglog(Re(31:40), f_theoretical(31:40), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(31:40),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(31:40)), log10(f_experimental(31:40)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
+plot(log10(Re(31:40)), log10(f_theoretical(31:40)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(31:40)), (y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
 
 hold off
 xlabel('log(Re)');
@@ -222,11 +222,11 @@ legend('Experimental Data', 'Theoretical (Nikuradse) Data', 'Fitted Line');
 
 figure(8);
 hold on
-errorbar(Re(31:40), f_experimental(31:40),Py4, 's','LineWidth',1.5); % error bar
-plot(Re(31:40),10.^(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
-loglog(Re(31:40), f_theoretical(31:40), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
-plot(Re(31:40),10.^(y4)+Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
-plot(Re(31:40),10.^(y4)-Py_hat4,'--','Color', [0 0 0], 'lineWidth', 2);
+errorbar(log10(Re(31:40)), log10(f_experimental(31:40)),log10(f_experimental(31:40) + Py4) - log10(f_experimental(31:40)), 's','LineWidth',1.5); % error bar
+plot(log10(Re(31:40)),(y4),'Color', [0 0 1], 'lineWidth', 2); % Fitted Line
+plot(log10(Re(31:40)), log10(f_theoretical(31:40)), 'o','Color', [1 0 0], 'lineWidth', 2); % theoretical friction
+plot(log10(Re(31:40)),log10(10.^(y4)+Py_hat4),'--','Color', [0 0 0], 'lineWidth', 2);
+plot(log10(Re(31:40)),log10(10.^(y4)-Py_hat4),'--','Color', [0 0 0], 'lineWidth', 2);
 
 
 hold off
