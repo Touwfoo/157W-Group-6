@@ -247,6 +247,26 @@ A_avg2 = sum(A2)/length(A2);
 A_avg3 = sum(A3)/length(A3);
 A_avg4 = sum(A4)/length(A4);
 
+figure(9)
+Re_power = linspace(4E4, 1E6, 100);
+f_powerLaw1 = powerLaw(A_avg1,Re_power, p1(1));
+f_powerLaw2 = powerLaw(A_avg2,Re_power, p2(1));
+f_powerLaw3 = powerLaw(A_avg3,Re_power, p3(1));
+f_powerLawTheory = powerLaw(0.184, Re_power, -0.2);
+
+plot(Re_power, f_powerLaw1, 'color', 'r', 'lineWidth', 2)
+hold on
+plot(Re_power, f_powerLaw2, 'color', 'g', 'lineWidth', 2)
+plot(Re_power, f_powerLaw3, 'color', 'b', 'lineWidth', 2)
+plot(Re_power, f_powerLawTheory, 'color', 'k', 'lineWidth', 2)
+hold off
+
+xlabel('Re');
+ylabel('fr [Friction Factor]');
+title('Power Law Comparison for Smooth Pipes');
+legend('Pipe 1', 'Pipe 2', 'Pipe 3','Theoretical: f = 0.184*Re^-0.2');
+
+
 %%
 
 % 1st order approximation for water density (kg/m^3)
@@ -261,6 +281,11 @@ function ans = waterDynViscosity(temperatureK)
     m = -2.05e-5;
     b = 0.891e-3;
     ans = b + m * (temperatureK - 273.15 - 25);
+end
+
+%experimental compared with power law equation
+function f = powerLaw(A, Re, m)
+    f = A*Re.^m;
 end
 
 
