@@ -12,6 +12,7 @@ Lab: Pipe Flow
 clear;
 close all;
 clc
+format long;
 
 %Importing data
 data=readtable("Pipe_Flow_Data.xlsx");
@@ -112,21 +113,9 @@ Sxx4 = sum((Re(31:40)).^2) - (1 / length(Re(31:40))) * (sum(Re(31:40)))^2; % Sam
 Py4 = 2 * sqrt(Sy4.^2 * (1 + 1 / length(Re(31:40)) + (Re(31:40) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of measurement
 Py_hat4 = 2 * sqrt(Sy4.^2 * (1 / length(Re(31:40)) + (Re(31:40) - xAvg4).^2 ./ Sxx4)); % Precision uncertainty of curve fit
 
+%% Plotting 
 
-
-
-
-
-
-
-
-
-
-
-
-
-% plot stuff
-                        %pipe 1
+%pipe 1
 figure(1);
 hold on
 plot(log10(Re(1:10)), log10(f_experimental(1:10)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
@@ -152,7 +141,8 @@ xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Small Smooth Pipe');
 legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainty of the curve fit)');
-                        %pipe 2
+
+%pipe 2
 figure(3);
 hold on
 plot(log10(Re(11:20)), log10(f_experimental(11:20)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
@@ -179,7 +169,7 @@ ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Medium Smooth Pipe');
 legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data','Error Lines (Precision uncertainty of the curve fit)');
 
-                         %pipe 3
+%pipe 3
 figure(5);
 hold on
 plot(log10(Re(21:30)), log10(f_experimental(21:30)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
@@ -206,8 +196,7 @@ ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Large Smooth Pipe');
 legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data', 'Error Lines (Precision uncertainty of the curve fit)');
 
-
-                         %pipe 4
+%pipe 4
 figure(7);
 hold on
 plot(log10(Re(31:40)), log10(f_experimental(31:40)), 'x','Color', [0 1 0], 'lineWidth', 2); % experimental friction
@@ -267,7 +256,7 @@ title('Power Law Comparison for Smooth Pipes');
 legend('Pipe 1', 'Pipe 2', 'Pipe 3','Theoretical: f = 0.184*Re^-0.2');
 
 
-%%
+%% Functions
 
 % 1st order approximation for water density (kg/m^3)
 function ans = waterDensity(temperatureK)
