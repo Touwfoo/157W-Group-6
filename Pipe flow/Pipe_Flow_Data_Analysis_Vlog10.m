@@ -21,7 +21,7 @@ Temperature = data.Temperature; %Units: Kelvin
 Frequency = data.Frequency; %Units: Hz
 PressureDrop = data.PressureDrop; %Units: Pa
 
-%Pipe Inner Diamaters (in order of 1, 2, 3, 4)
+%Pipe Inner Diameters (in order of 1, 2, 3, 4)
 PipeDiameterArray = [8.15; 11.8; 17.5; 9.93] ./ 1000; %Units: m
 
 %Pipe Lengths (in order of 1, 2, 3, 4)
@@ -151,7 +151,7 @@ hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Small Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainty of the curve fit)');
                         %pipe 2
 figure(3);
 hold on
@@ -177,7 +177,7 @@ hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Medium Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data','Error Lines (Precision uncertainty of the curve fit)');
 
                          %pipe 3
 figure(5);
@@ -204,7 +204,7 @@ hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Large Smooth Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data', 'Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line','Theoretical Data', 'Error Lines (Precision uncertainty of the curve fit)');
 
 
                          %pipe 4
@@ -233,7 +233,7 @@ hold off
 xlabel('log(Re)');
 ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Square Rough Pipe');
-legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
+legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainty of the curve fit)');
 
 %% Power law calculations
 % f = A*Re^m
