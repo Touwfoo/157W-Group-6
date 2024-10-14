@@ -52,7 +52,7 @@ f_theoretical = (0.790 * log(Re) - 1.64).^(-2); % theoretical empirical calculat
 h = 0.305 / 1000;
 P = 3.08 / 1000;
 epsilon_s = h * exp(3.4 - 0.42 * (P / h)^0.46);
-f_theoretical(31:39) = (1.74 + 2 * log10(PipeDiameter(31:39) / (2 * epsilon_s))).^(-2); % theoretical empirical calculation for rough pipe
+f_theoretical(31:40) = (1.74 + 2 * log10(PipeDiameter(31:40) / (2 * epsilon_s))).^(-2); % theoretical empirical calculation for rough pipe
 
 f_experimental = PressureDrop ./ (((PipeLength ./ PipeDiameter)) .* (0.5 * Density .* (Velocity).^2));
 
@@ -235,7 +235,17 @@ ylabel('log(fr) [Friction Factor]');
 title('Moody Plot for Square Rough Pipe');
 legend('Error Bar (Precision uncertainty of a measurement)', 'Fitted Line', 'Theoretical Data','Error Lines (Precision uncertainity of the curve fit)');
 
+%% Power law calculations
+% f = A*Re^m
+A1 = f_experimental(1:9)./Re(1:9).^p1(1);
+A2 = f_experimental(11:19)./Re(11:19).^p2(1);
+A3 = f_experimental(21:29)./Re(21:29).^p3(1);
+A4 = f_experimental(31:39)./Re(31:39).^p4(1);
 
+A_avg1 = sum(A1)/length(A1);
+A_avg2 = sum(A2)/length(A2);
+A_avg3 = sum(A3)/length(A3);
+A_avg4 = sum(A4)/length(A4);
 
 %%
 
