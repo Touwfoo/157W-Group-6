@@ -12,6 +12,7 @@ Lab: CHANGE THIS
 clear
 close
 clc
+format long
 
 %Importing data
 data=readtable("Pipe_Flow_Data.xlsx");

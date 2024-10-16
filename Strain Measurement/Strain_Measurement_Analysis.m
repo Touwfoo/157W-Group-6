@@ -12,11 +12,12 @@ Lab: Strain Measurement
 clear
 close
 clc
+format long
 
 %{
 Row Information
 Pure Bending: 1-25
-Pure Torsion:26-50
+Pure Torsion: 26-50
 Fixed Bending and Variable Torsion: 51-65
 Variable Bending and Fixed Torsion: 66-80
 Axial Distribution: 81-85
@@ -24,14 +25,14 @@ Axial Distribution: 81-85
 
 %Importing data and converting to appropriate units
 data=readtable("Strain_Measurement_Data.xlsx");
-BendingWeight=data.BendingWeight*0.45359237;
-TorsionWeight=data.TorsionWeight*0.45359237;
-TorsionReading=data.TorsionReading*10^-6;
-BendingReading1=data.BendingReading1*10^-6;
-BendingReading2=data.BendingReading2*10^-6;	
-BendingReading3=data.BendingReading3*10^-6;	
-BendingReading4=data.BendingReading4*10^-6;	
-BendingReading5=data.BendingReading5*10^-6;
+BendingWeight=data.BendingWeight*0.45359237; %Units: kg
+TorsionWeight=data.TorsionWeight*0.45359237; %Units: kg
+TorsionReading=data.TorsionReading*10^-6; %Unitless
+BendingReading1=data.BendingReading1*10^-6; %Unitless
+BendingReading2=data.BendingReading2*10^-6;	%Unitless
+BendingReading3=data.BendingReading3*10^-6;	%Unitless
+BendingReading4=data.BendingReading4*10^-6;	%Unitless
+BendingReading5=data.BendingReading5*10^-6; %Unitless
 
 %In order of 1lb, 2lb, 3lb, 4lb, 5lb
 avgStrainPureBending = [mean(BendingReading1(1:5)); 
