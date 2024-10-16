@@ -110,6 +110,8 @@ F=9.81*Weight; %Units: N
 E=68.3*10^9; %Units: Pa
 v=0.33; %Unitless
 G=E/2/(1+v); %Units: Pa
+I=(D^4-d^4)*pi/64; %Units: m^4
+J=(D^4-d^4)*pi/32; %Units: m^4
 
 %Calculations
 Torque=F*R; %Units: N*m
@@ -134,7 +136,7 @@ plot(Torque, avgStrainPureTorsion, 'x','Color', [0 1 0], 'lineWidth', 2); %Exper
 plot(Torque, avgStrainPureTorsion, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
 
 hold off
-xlabel('Moment [N*m]');
+xlabel('Torque [N*m]');
 ylabel('Strain [—]');
 title('Pure Torsion');
 legend('Experimental Data', 'Theoretical Data');
