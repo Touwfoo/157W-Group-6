@@ -182,7 +182,7 @@ figure(1);
 hold on
 plot(Mb, avgStrainPureBending, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mb, epsilon_b, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
-plot(Mb, Mb*pureBendingBestFit(1) + pureBendingBestFit(2), '-', 'Color', [0 0 1], 'lineWidth', 2) %Line of best fit
+plot(Mb, Mb*pureBendingBestFit(1) + pureBendingBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of best fit
 
 hold off
 grid on
@@ -196,7 +196,7 @@ figure(2);
 hold on
 plot(Mt, avgStrainPureTorsion, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mt, epsilon_t, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
-plot(Mt, Mt*pureTorsionBestFit(1) + pureTorsionBestFit(2), 'Color', [0 0 1], 'lineWidth', 2); %Line of best fit
+plot(Mt, Mt*pureTorsionBestFit(1) + pureTorsionBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2); %Line of best fit
 
 
 hold off
@@ -211,8 +211,8 @@ figure(3);
 hold on
 plot(x, M_experimental, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(x_values, M_theoretical, '-','Color', [1 0 0], 'lineWidth', 2); %Theoretical
-plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*MexpAxialBestFit1(1) + MexpAxialBestFit1(2), 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
-plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*MexpAxialBestFit2(1) + MexpAxialBestFit2(2), 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
+plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*MexpAxialBestFit1(1) + MexpAxialBestFit1(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
+plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*MexpAxialBestFit2(1) + MexpAxialBestFit2(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
 yline(0);
 
 hold off
@@ -226,8 +226,8 @@ figure(4);
 hold on
 plot(x, avgStrainAxialDistribution, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(x_values, Epsilon_theoretical, '-','Color', [1 0 0], 'lineWidth', 2); %Theoretical
-plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*StrainExpAxialBestFit1(1) + StrainExpAxialBestFit1(2), 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
-plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*StrainExpAxialBestFit2(1) + StrainExpAxialBestFit2(2), 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
+plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*StrainExpAxialBestFit1(1) + StrainExpAxialBestFit1(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
+plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*StrainExpAxialBestFit2(1) + StrainExpAxialBestFit2(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
 
 yline(0);
 
