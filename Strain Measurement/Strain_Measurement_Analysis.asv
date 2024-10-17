@@ -113,8 +113,6 @@ v=0.33; %Unitless
 G=E/2/(1+v); %Units: Pa
 
 %Calculations for Pure Bending Pure Torsion, and Axial Distribution
-%Note: Negative signs were added to fix sign conventions. Why? IDK
-
 Mb=m*g*(L/2-11/16*(L-xload)); %Units: N*m
 epsilon_b=32*Mb*D/pi/E/(D^4-d^4); %Unitless
 Mt=-m*g*R; %Units: N*m
@@ -134,10 +132,9 @@ for i = 1:100
      if L-x_values(i) < L/2
         M_theoretical(i)=5*M*g*(L-x_values(i))/16; %Units: N*m
      else
-        M_theoretical(i)=M*g*(L/2-11/16*(L-x_values(i))); %Units: N*m
+        M_values(i)=M*g*(L/2-11/16*(L-x_values(i))); %Units: N*m
      end
 end
-Epsilon_theoretical = -32*M_theoretical*D/pi/E/(D^4-d^4);
 
 
 %Calculations for Cross-Talk Coefficients
@@ -165,8 +162,8 @@ k_values
 %Plot for Pure Bending
 figure(1);
 hold on
-plot(Mb, avgStrainPureBending, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
-plot(Mb, epsilon_b, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
+plot(Mb, epsilon_b, 'x','Color', [0 1 0], 'lineWidth', 2); %Theoretical
+plot(Mb, avgStrainPureBending, 'o','Color', [1 0 0], 'lineWidth', 2); %Experimental
 
 hold off
 grid on
@@ -178,8 +175,8 @@ legend('Experimental Data', 'Theoretical Data');
 %Plot for Pure Torsion
 figure(2);
 hold on
-plot(Mt, avgStrainPureTorsion, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
-plot(Mt, epsilon_t, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
+plot(Mt, epsilon_t, 'x','Color', [0 1 0], 'lineWidth', 2); %Theoretical
+plot(Mt, avgStrainPureTorsion, 'o','Color', [1 0 0], 'lineWidth', 2); %Experimental
 
 hold off
 grid on
@@ -205,7 +202,7 @@ legend('Experimental Data', 'Theoretical Data');
 figure(4);
 hold on
 plot(x, avgStrainAxialDistribution, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
-plot(x_values, Epsilon_theoretical, '-','Color', [1 0 0], 'lineWidth', 2); %Theoretical
+plot(x, avgStrainAxialDistribution, 'o','Color', [1 0 0], 'lineWidth', 2); %Theoretical
 yline(0);
 
 hold off
@@ -216,8 +213,3 @@ title('Axial Distribution Strain Graph');
 legend('Experimental Data', 'Theoretical Data');
 
 
-%Error Analysis
-deltam = 0.005; %Units: kg
-deltaL = 0.0002*10^-2; %Units: m
-deltaD = 0.0002*10^-2; %Units: m
-deltad = 0.0002*10^-2; %Units: m
