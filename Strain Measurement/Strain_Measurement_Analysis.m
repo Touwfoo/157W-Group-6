@@ -171,22 +171,33 @@ deltam = 0.005; %Units: kg
 deltaL = 0.02*10^-2; %Units: m
 deltaD = 0.02*10^-2; %Units: m
 deltad = 0.02*10^-2; %Units: m
+deltaR = 0.02*10^-2; %Units: m
+
+%Error Analysis Pure Bending
 dMbdm= g*(L/2-11/16*(L-xload)); %Units: N*m/kg
 dMbdL= m*g*(1/2-11/16+11/16*xload); %Units: N
 %DO WE NEED TO ADD dMbdxload??????
-deltaM = sqrt( (dMbdm*deltam).^2 + (dMbdL*deltaL).^2 ); %Units: N*m
+deltaMb = sqrt( (dMbdm*deltam).^2 + (dMbdL*deltaL).^2 ); %Units: N*m
 depsilonbdM=32*D/pi/E/(D^4-d^4);
 depsilonbdD=-32*Mb*(3*D^4+d^4)/pi/E/(D^4-d^4)^2;
 depsilonbdd=128*D*Mb*d^3/pi/E/(D^4-d^4)^2;
-Py1=( (depsilonbdM*deltaM).^2 + (depsilonbdD*deltaD).^2  + (depsilonbdd*deltad).^2  );
+Py1=( (depsilonbdM*deltaMb).^2 + (depsilonbdD*deltaD).^2  + (depsilonbdd*deltad).^2  );
 Px1=stdStrainPureBending';
 errorBendingStrain = sqrt(Px1.^2 +Py1.^2);
 
+%Error Analysis Pure Torsion
+dMtdm=g*R; %Units:N*m/kg
+dMtdR=m*g; %Units:N
+deltaMt = sqrt( (dMtdm*deltam).^2 + (dMtdR*deltaR).^2 ); %Units: N*m
+depsilontdM=16*D/pi/G/(D^4-d^4);
+depsilontdD=-16*Mt*(3*D^4+d^4)/pi/G/(D^4-d^4)^2;
+depsilontdd=64*D*Mt*d^3/pi/G/(D^4-d^4)^2;
+Py2=( (depsilontdM*deltaMt).^2 + (depsilontdD*deltaD).^2  + (depsilontdd*deltad).^2  );
+Px2=stdStrainPureTorsion';
+errorTorsionStrain = sqrt(Px2.^2 +Py2.^2);
 
-
-
-
-%errorTorsionStrain = sqrt(Px2.^2+Py2.^2);
+%Error Analysis Axial Distribution
+%THIS PART NEEDS TO BE FILLLED IN! FOLLOW SAME PROCESS AS ABOVE!!!
 
 %Lines of Best Fit
 pureBendingBestFit = polyfit(Mb, avgStrainPureBending, 1);
@@ -196,14 +207,13 @@ MexpAxialBestFit2 = polyfit(x(3:5), M_experimental(3:5), 1);
 StrainExpAxialBestFit1 = polyfit(x(1:3), avgStrainAxialDistribution(1:3), 1);
 StrainExpAxialBestFit2 = polyfit(x(3:5), avgStrainAxialDistribution(3:5), 1);
 
-
 %Plot for Pure Bending
 figure(1);
 hold on
 plot(Mb, avgStrainPureBending, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mb_values, epsilon_b_values,'Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(Mb, Mb*pureBendingBestFit(1) + pureBendingBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of best fit
-errorbar(Mb, avgStrainPureBending, Py1*10^6,'s','LineWidth',1.5);
+errorbar(Mb, avgStrainPureBending, errorBendingStrain,'s','LineWidth',1.5);
 
 hold off
 grid on
@@ -218,7 +228,7 @@ hold on
 plot(Mt, avgStrainPureTorsion, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mt_values, epsilon_t_values,'Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(Mt, Mt*pureTorsionBestFit(1) + pureTorsionBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2); %Line of best fit
-%errorbar(Mt, avgStrainPureTorsion,);
+errorbar(Mt, avgStrainPureTorsion, errorTorsionStrain,'s','LineWidth',1.5);
 
 hold off
 grid on
