@@ -230,62 +230,62 @@ StrainExpAxialBestFit2 = polyfit(x(3:5), avgStrainAxialDistribution(3:5), 1);
 %Plot for Pure Bending
 figure(1);
 hold on
+errorbar(Mb, avgStrainPureBending, errorBendingStrain,'s','LineWidth',1.5, 'Color', 'magenta'); %Error
 plot(Mb, avgStrainPureBending, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mb_values, epsilon_b_values,'Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(Mb, Mb*pureBendingBestFit(1) + pureBendingBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of best fit
-errorbar(Mb, avgStrainPureBending, errorBendingStrain,'s','LineWidth',1.5);
 
 hold off
 grid on
 xlabel('Moment [N*m]');
 ylabel('Strain [-]');
 title('Pure Bending');
-legend('Experimental Data', 'Theoretical Data', 'Line of Best Fit');
+legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Pure Torsion
 figure(2);
 hold on
+errorbar(Mt, avgStrainPureTorsion, errorTorsionStrain,'s','LineWidth',1.5, 'Color', 'magenta'); %Error
 plot(Mt, avgStrainPureTorsion, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(Mt_values, epsilon_t_values,'Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(Mt, Mt*pureTorsionBestFit(1) + pureTorsionBestFit(2), '--', 'Color', [0 0 1], 'lineWidth', 2); %Line of best fit
-errorbar(Mt, avgStrainPureTorsion, errorTorsionStrain,'s','LineWidth',1.5);
 
 hold off
 grid on
 xlabel('Torque [N*m]');
 ylabel('Strain [-]');
 title('Pure Torsion');
-legend('Experimental Data', 'Theoretical Data', 'Line of Best Fit');
+legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Axial Distribution
 figure(3);
 hold on
+errorbar(x, M_experimental, errorAxialDistribution1, 's','LineWidth',1.5, 'Color', 'magenta'); %Error
 plot(x, M_experimental, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(x_values, M_theoretical, '-','Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*MexpAxialBestFit1(1) + MexpAxialBestFit1(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
 plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*MexpAxialBestFit2(1) + MexpAxialBestFit2(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
 yline(0);
-errorbar(x, M_experimental, errorAxialDistribution1, 's','LineWidth',1.5);
 
 hold off
 grid on
 xlabel('Position [m]');
 ylabel('Moment [N*m]');
 title('Axial Distribution Moment Graph');
-legend('Experimental Data', 'Theoretical Data', 'Line of Best Fit');
+legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 figure(4);
 hold on
+errorbar(x, avgStrainAxialDistribution, errorAxialDistribution2, 's','LineWidth',1.5, 'Color', 'magenta'); %Error
 plot(x, avgStrainAxialDistribution, 'x','Color', [0 1 0], 'lineWidth', 2); %Experimental
 plot(x_values, Epsilon_theoretical, '-','Color', [1 0 0], 'lineWidth', 2); %Theoretical
 plot(x_values(1:round(length(x_values)/2)), x_values(1:round(length(x_values)/2))*StrainExpAxialBestFit1(1) + StrainExpAxialBestFit1(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 1
 plot(x_values(round(length(x_values)/3):end), x_values(round(length(x_values)/3):end)*StrainExpAxialBestFit2(1) + StrainExpAxialBestFit2(2), '--', 'Color', [0 0 1], 'lineWidth', 2) %Line of Best Fit 2
 yline(0);
-errorbar(x, avgStrainAxialDistribution, errorAxialDistribution2, 's','LineWidth',1.5);
 
 hold off
 grid on
 xlabel('Position [m]');
 ylabel('Strain [-]');
 title('Axial Distribution Strain Graph');
-legend('Experimental Data', 'Theoretical Data', 'Line of Best Fit');
+legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
