@@ -208,7 +208,7 @@ dMbdLAD(4:5)=5*M*g/16; %Units: N
 dMbdxAD(4:5)=-5*M*g/16; %Units: N
 
 Py3= sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 ); 
-Px3= stdStrainAxialDistribution'; %SOMEONE DOUBLE CHECK IF THIS IS GOOD???
+Px3= stdStrainAxialDistribution';
 errorAxialDistribution1 = sqrt(Px3.^2 +Py3.^2);
 
 deltaMAD=sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 );
@@ -216,7 +216,7 @@ depsilondMAD=32*D/pi/E/(D^4-d^4);
 depsilondDAD=-32*Mb*(3*D^4+d^4)/pi/E/(D^4-d^4)^2;
 depsilonddAD=128*D*Mb*d^3/pi/E/(D^4-d^4)^2;
 Py4=sqrt( (depsilondMAD*deltaMAD).^2 + (depsilondDAD*deltaD).^2  + (depsilonddAD*deltad).^2  );
-Px4=stdStrainPureBending';
+Px4=stdStrainAxialDistribution';
 errorAxialDistribution2 = sqrt(Px4.^2 +Py4.^2);
 
 %Lines of Best Fit
