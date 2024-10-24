@@ -14,6 +14,11 @@ close
 clc
 format long
 
+%Graph settings
+fs = 20;
+fn = 'Arial';
+lw = 2;
+
 %{
 Row Information
 Pure Bending: 1-25
@@ -240,6 +245,7 @@ grid on
 xlabel('Moment [N*m]');
 ylabel('Strain [-]');
 title('Pure Bending');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
 legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Pure Torsion
@@ -255,6 +261,7 @@ grid on
 xlabel('Torque [N*m]');
 ylabel('Strain [-]');
 title('Pure Torsion');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
 legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Axial Distribution
@@ -272,6 +279,7 @@ grid on
 xlabel('Position [m]');
 ylabel('Moment [N*m]');
 title('Axial Distribution Moment Graph');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
 legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 figure(4);
@@ -288,4 +296,5 @@ grid on
 xlabel('Position [m]');
 ylabel('Strain [-]');
 title('Axial Distribution Strain Graph');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
 legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
