@@ -95,7 +95,6 @@ stdStrainAxialDistribution = [std(BendingReading1(81:85));
                             std(BendingReading4(81:85)); 
                             std(BendingReading5(81:85))];
 
-
 %Values from lab manual
 x1=1.5*0.0254; %Units: m
 x2=3.5*0.0254; %Units: m
@@ -134,9 +133,9 @@ Mb_axial(1:3)=M*g*(L/2-11/16*(L-x(1:3))); %Units: N*m
 
 M_experimental=-avgStrainAxialDistribution*pi*E*(D^4-d^4)/32/D;
 
-x_values=linspace(0,L,100);
+x_values=linspace(0,L,1000);
 M_theoretical=zeros(size(x_values));
-for i = 1:100
+for i = 1:1000
      if L-x_values(i) < L/2
         M_theoretical(i)=5*M*g*(L-x_values(i))/16; %Units: N*m
      else
@@ -213,13 +212,13 @@ dMbdLAD(4:5)=5*M*g/16; %Units: N
 dMbdxAD(4:5)=-5*M*g/16; %Units: N
 
 Py3= sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 ); 
-Px3= stdStrainAxialDistribution';
+Px3= (32*D/pi/E/(D^4-d^4))^-1*stdStrainAxialDistribution';
 errorAxialDistribution1 = sqrt(Px3.^2 +Py3.^2);
 
 deltaMAD=sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 );
 depsilondMAD=32*D/pi/E/(D^4-d^4);
-depsilondDAD=-32*Mb*(3*D^4+d^4)/pi/E/(D^4-d^4)^2;
-depsilonddAD=128*D*Mb*d^3/pi/E/(D^4-d^4)^2;
+depsilondDAD=-32*Mb_axial*(3*D^4+d^4)/pi/E/(D^4-d^4)^2;
+depsilonddAD=128*D*Mb_axial*d^3/pi/E/(D^4-d^4)^2;
 Py4=sqrt( (depsilondMAD*deltaMAD).^2 + (depsilondDAD*deltaD).^2  + (depsilonddAD*deltad).^2  );
 Px4=stdStrainAxialDistribution';
 errorAxialDistribution2 = sqrt(Px4.^2 +Py4.^2);

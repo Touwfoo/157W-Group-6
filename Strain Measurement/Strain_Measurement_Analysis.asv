@@ -14,6 +14,11 @@ close
 clc
 format long
 
+%Graph settings
+fs = 20;
+fn = 'Arial';
+lw = 2;
+
 %{
 Row Information
 Pure Bending: 1-25
@@ -90,7 +95,6 @@ stdStrainAxialDistribution = [std(BendingReading1(81:85));
                             std(BendingReading4(81:85)); 
                             std(BendingReading5(81:85))];
 
-
 %Values from lab manual
 x1=1.5*0.0254; %Units: m
 x2=3.5*0.0254; %Units: m
@@ -129,9 +133,9 @@ Mb_axial(1:3)=M*g*(L/2-11/16*(L-x(1:3))); %Units: N*m
 
 M_experimental=-avgStrainAxialDistribution*pi*E*(D^4-d^4)/32/D;
 
-x_values=linspace(0,L,100);
+x_values=linspace(0,L,1000);
 M_theoretical=zeros(size(x_values));
-for i = 1:100
+for i = 1:1000
      if L-x_values(i) < L/2
         M_theoretical(i)=5*M*g*(L-x_values(i))/16; %Units: N*m
      else
@@ -208,7 +212,7 @@ dMbdLAD(4:5)=5*M*g/16; %Units: N
 dMbdxAD(4:5)=-5*M*g/16; %Units: N
 
 Py3= sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 ); 
-Px3= stdStrainAxialDistribution'; %SOMEONE DOUBLE CHECK IF THIS IS GOOD???
+Px3= (pi*E*(D^4-d^4)/32/D)*stdStrainAxialDistribution';
 errorAxialDistribution1 = sqrt(Px3.^2 +Py3.^2);
 
 deltaMAD=sqrt( (dMbdmAD*deltam).^2 + (dMbdLAD*deltaL).^2 + (dMbdxAD*deltax).^2 );
@@ -216,7 +220,7 @@ depsilondMAD=32*D/pi/E/(D^4-d^4);
 depsilondDAD=-32*Mb*(3*D^4+d^4)/pi/E/(D^4-d^4)^2;
 depsilonddAD=128*D*Mb*d^3/pi/E/(D^4-d^4)^2;
 Py4=sqrt( (depsilondMAD*deltaMAD).^2 + (depsilondDAD*deltaD).^2  + (depsilonddAD*deltad).^2  );
-Px4=stdStrainPureBending';
+Px4=stdStrainAxialDistribution';
 errorAxialDistribution2 = sqrt(Px4.^2 +Py4.^2);
 
 %Lines of Best Fit
@@ -240,7 +244,8 @@ grid on
 xlabel('Moment [N*m]');
 ylabel('Strain [-]');
 title('Pure Bending');
-legend('Experimental Data', 'Error', 'Theoretical Data', 'Line of Best Fit');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
+legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Pure Torsion
 figure(2);
@@ -255,7 +260,8 @@ grid on
 xlabel('Torque [N*m]');
 ylabel('Strain [-]');
 title('Pure Torsion');
-legend('Experimental Data', 'Error', 'Theoretical Data', 'Line of Best Fit');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
+legend('Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 %Plot for Axial Distribution
 figure(3);
@@ -272,7 +278,8 @@ grid on
 xlabel('Position [m]');
 ylabel('Moment [N*m]');
 title('Axial Distribution Moment Graph');
-legend('Experimental Data', 'Error', 'Theoretical Data', 'Line of Best Fit');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
+legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
 
 figure(4);
 hold on
@@ -288,4 +295,5 @@ grid on
 xlabel('Position [m]');
 ylabel('Strain [-]');
 title('Axial Distribution Strain Graph');
-legend('Experimental Data', 'Error', 'Theoretical Data', 'Line of Best Fit');
+set(gca, 'FontSize', fs, 'FontName', fn, 'linewidth', lw, 'box', 'off');
+legend( 'Error', 'Experimental Data', 'Theoretical Data', 'Line of Best Fit');
