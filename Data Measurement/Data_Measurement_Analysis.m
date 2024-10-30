@@ -19,8 +19,7 @@ Dtdt_clean = getDerivative(time_clean, temp_clean);
 Dtdt_vas = getDerivative(time_vas, temp_vas);
 Dtdt_nplc = getDerivative(time_nplc, temp_nplc);
 
-%%
-% plot temps for NPLC variation
+%% plot temps
 figure(1)
 hold on
 for a = 1:7
@@ -50,8 +49,7 @@ for a = 1:3
 end
 hold off
 
-%%
-% plot derivatives for NPLC variation
+%% plot derivatives
 figure(5)
 hold on
 for a = 1:7
@@ -78,6 +76,16 @@ figure(8)
 hold on
 for a = 1:3
     plot(time_vas(:,a), Dtdt_vas(:,a));
+end
+hold off
+
+%% plot temp vs. heat transfer rates
+
+figure(9)
+semilogy(temp_nplc(:,1),-Dtdt_nplc(:,1));
+hold on
+for a = 2:3
+    semilogy(temp_nplc(:,a),-Dtdt_nplc(:,a));
 end
 hold off
 
