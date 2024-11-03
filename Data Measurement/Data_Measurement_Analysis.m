@@ -145,7 +145,11 @@ deltaT_vas = temp_vas - T_sat;
 
 %% plot temp vs. heat transfer rates
 
-figure(9)
+figure(3)
+
+tiledlayout(2,2);
+
+nexttile;
 for a = 1:7
     loglog(deltaT_nplc(:,a),q_nplc(:,a));
     hold on
@@ -153,8 +157,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Varying nPLC');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('1', '2', '3', '4', '5', '7', '10');
 
-figure(10)
+nexttile;
 for a = 1:3
     loglog(deltaT_normal(:,a),q_normal(:,a));
     hold on
@@ -162,8 +170,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Normal Surface');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
-figure(11)
+nexttile;
 for a = 1:3
     loglog(deltaT_clean(:,a),q_clean(:,a));
     hold on
@@ -171,8 +183,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Clean Surface');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
-figure(12)
+nexttile;
 for a = 1:3
     loglog(deltaT_vas(:,a),q_vas(:,a));
     hold on
@@ -180,6 +196,10 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Vaseline Surface');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
 %% perform moving average on the data, plot the data
 
@@ -188,7 +208,10 @@ q_moveAvg_normal = getMoveAvg(q_normal, 16);
 q_moveAvg_clean = getMoveAvg(q_clean, 16);
 q_moveAvg_vas = getMoveAvg(q_vas, 16);
 
-figure(13)
+figure(4)
+tiledlayout(2,2);
+
+nexttile;
 for a = 1:7
     loglog(deltaT_nplc(:,a),q_moveAvg_nplc(:,a));
     hold on
@@ -196,8 +219,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Varying nPLC, w/ Moving Avg');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('1', '2', '3', '4', '5', '7', '10')
 
-figure(14)
+nexttile;
 for a = 1:3
     loglog(deltaT_normal(:,a),q_moveAvg_normal(:,a));
     hold on
@@ -205,8 +232,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Normal Surface, w/ Moving Avg');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
-figure(15)
+nexttile;
 for a = 1:3
     loglog(deltaT_clean(:,a),q_moveAvg_clean(:,a));
     hold on
@@ -214,8 +245,12 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Clean Surface, w/ Moving Avg');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
-figure(16)
+nexttile;
 for a = 1:3
     loglog(deltaT_vas(:,a),q_moveAvg_vas(:,a));
     hold on
@@ -223,6 +258,10 @@ end
 hold off
 ylim([2000, 200000]);
 grid on;
+title('Heat Flux vs. Temp, Vaseline Surface, w/ Moving Avg');
+xlabel('T-Tsat (K)');
+ylabel('Heat Flux (W/m^2)');
+legend('Trial 1', 'Trial 2', 'Trial 3');
 
 %%
 function moveAvg = getMoveAvg(data,k)
