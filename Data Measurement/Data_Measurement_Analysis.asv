@@ -21,116 +21,216 @@ Dtdt_nplc = getDerivative(time_nplc, temp_nplc);
 
 %% plot temps
 figure(1)
+tiledlayout(2,2);
+nexttile;
 hold on
 for a = 1:7
     plot(time_nplc(:,a), temp_nplc(:,a));
 end
 hold off
 legend('1', '2', '3', '4', '5', '7', '10')
+title('Time vs. Temperature for Varying nPLC');
+xlabel('Time (s)');
+ylabel('Temperature (C)');
+grid on;
 
-figure(2)
+nexttile;
 hold on
 for a = 1:3
     plot(time_normal(:,a), temp_normal(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. Temperature for Normal Surface Conditions');
+xlabel('Time (s)');
+ylabel('Temperature (C)');
+grid on;
 
-figure(3)
+nexttile;
 hold on
 for a = 1:3
     plot(time_clean(:,a), temp_clean(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. Temperature for Clean Surface Conditions');
+xlabel('Time (s)');
+ylabel('Temperature (C)');
+grid on;
 
-figure(4)
+nexttile;
 hold on
 for a = 1:3
     plot(time_vas(:,a), temp_vas(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. Temperature for Vaseline Surface Conditions');
+xlabel('Time (s)');
+ylabel('Temperature (C)');
+grid on;
 
 %% plot derivatives
-figure(5)
+figure(2)
+tiledlayout(2,2);
+
+nexttile;
 hold on
 for a = 1:7
     plot(time_nplc(:,a), Dtdt_nplc(:,a));
 end
 hold off
 legend('1', '2', '3', '4', '5', '7', '10')
+title('Time vs. dTdt for Varying nPLC');
+xlabel('Time (s)');
+ylabel('Rate of Temperature Change (C/s)');
+grid on;
 
-figure(6)
+nexttile;
 hold on
 for a = 1:3
     plot(time_normal(:,a), Dtdt_normal(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. dTdt for Normal Surface');
+xlabel('Time (s)');
+ylabel('Rate of Temperature Change (C/s)');
+grid on;
 
-figure(7)
+nexttile;
 hold on
 for a = 1:3
     plot(time_clean(:,a), Dtdt_clean(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. dTdt for Clean Surface');
+xlabel('Time (s)');
+ylabel('Rate of Temperature Change (C/s)');
+grid on;
 
-figure(8)
+nexttile;
 hold on
 for a = 1:3
     plot(time_vas(:,a), Dtdt_vas(:,a));
 end
 hold off
+legend('Trial 1', 'Trial 2', 'Trial 3');
+title('Time vs. dTdt for Vaseline Surface');
+xlabel('Time (s)');
+ylabel('Rate of Temperature Change (C/s)');
+grid on;
+
+%% 
+
+D = 1.27 / 100; % diameter of the ball
+rho = 8900; % density of copper
+T_table = [70,80,90,100,110,120,130,140,150,160,170,180,190,200,220,240,260,280,300];
+c_table = [171,203,229,251,271,287,301,313,323,332,339,346,351,356,365,372,377,382,386];
+c_nplc = interp1(T_table, c_table,temp_nplc);
+c_normal = interp1(T_table, c_table,temp_normal);
+c_clean = interp1(T_table, c_table,temp_clean);
+c_vas = interp1(T_table, c_table,temp_vas);
+q_nplc = -(1/6) .* c_nplc .* rho .* D .* Dtdt_nplc;
+q_normal = -(1/6) .* c_normal .* rho .* D .* Dtdt_normal;
+q_clean = -(1/6) .* c_clean .* rho .* D .* Dtdt_clean;
+q_vas = -(1/6) .* c_vas .* rho .* D .* Dtdt_vas;
+
+T_sat = -195.8 + 273.15;
+deltaT_nplc = temp_nplc - T_sat;
+deltaT_normal = temp_normal - T_sat;
+deltaT_clean = temp_clean - T_sat;
+deltaT_vas = temp_vas - T_sat;
 
 %% plot temp vs. heat transfer rates
 
 figure(9)
 for a = 1:7
-    loglog(temp_nplc(:,a),-Dtdt_nplc(:,a));
+    loglog(deltaT_nplc(:,a),q_nplc(:,a));
     hold on
 end
 hold off
+ylim([2000, 200000]);
+grid on;
 
 figure(10)
 for a = 1:3
-    loglog(temp_normal(:,a),-Dtdt_normal(:,a));
+    loglog(deltaT_normal(:,a),q_normal(:,a));
     hold on
 end
 hold off
+ylim([2000, 200000]);
+grid on;
 
 figure(11)
 for a = 1:3
-    loglog(temp_clean(:,a),-Dtdt_clean(:,a));
+    loglog(deltaT_clean(:,a),q_clean(:,a));
     hold on
 end
 hold off
+ylim([2000, 200000]);
+grid on;
 
 figure(12)
 for a = 1:3
-    loglog(temp_vas(:,a),-Dtdt_vas(:,a));
+    loglog(deltaT_vas(:,a),q_vas(:,a));
     hold on
 end
 hold off
+ylim([2000, 200000]);
+grid on;
 
-%% perform moving average on the data
+%% perform moving average on the data, plot the data
 
-Dtdt_moveAvg_nplc = zeros()
-for a = 1:7
-    Dtdt_moveAvg_nplc = movmean(temp_nplc(:,a), 3);
-end
+q_moveAvg_nplc = getMoveAvg(q_nplc, 16);
+q_moveAvg_normal = getMoveAvg(q_normal, 16);
+q_moveAvg_clean = getMoveAvg(q_clean, 16);
+q_moveAvg_vas = getMoveAvg(q_vas, 16);
 
 figure(13)
 for a = 1:7
-    loglog(temp_nplc(:,a),-Dtdt_moveAvg_nplc(:,a));
+    loglog(deltaT_nplc(:,a),q_moveAvg_nplc(:,a));
     hold on
 end
 hold off
+ylim([2000, 200000]);
+grid on;
+
+figure(14)
+for a = 1:3
+    loglog(deltaT_normal(:,a),q_moveAvg_normal(:,a));
+    hold on
+end
+hold off
+ylim([2000, 200000]);
+grid on;
+
+figure(15)
+for a = 1:3
+    loglog(deltaT_clean(:,a),q_moveAvg_clean(:,a));
+    hold on
+end
+hold off
+ylim([2000, 200000]);
+grid on;
+
+figure(16)
+for a = 1:3
+    loglog(deltaT_vas(:,a),q_moveAvg_vas(:,a));
+    hold on
+end
+hold off
+ylim([2000, 200000]);
+grid on;
 
 %%
 function moveAvg = getMoveAvg(data,k)
     Dtdt_moveAvg_ans = zeros(length(data(:,1)), length(data(1,:)));
-    for b = 1:length(data(1,:))
-        for a = 1:7
-            Dtdt_moveAvg_ans = movmean(temp_nplc(:,a), 3);
-        end
+    for a = 1:length(data(1,:))
+        Dtdt_moveAvg_ans(:,a) = movmean(data(:,a), k);
     end
+    moveAvg = Dtdt_moveAvg_ans;
 end
 
 function Dtdt = getDerivative(x,y)
