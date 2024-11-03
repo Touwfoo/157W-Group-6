@@ -263,6 +263,20 @@ xlabel('T-Tsat (K)');
 ylabel('Heat Flux (W/m^2)');
 legend('Trial 1', 'Trial 2', 'Trial 3');
 
+%% Plot q_max versus nPLC
+
+q_max = zeros(1,7);
+nplc_values = [1,2,3,4,5,7,10];
+for a = 1:7
+    q_max(a) = max(q_moveAvg_nplc(:,a));
+end
+
+figure(5)
+scatter(nplc_values, q_max);
+title('nPLC vs. q_{max}');
+xlabel('nPLC Value');
+ylabel('q_{max} (W/m^2)');
+
 %%
 function moveAvg = getMoveAvg(data,k)
     Dtdt_moveAvg_ans = zeros(length(data(:,1)), length(data(1,:)));
