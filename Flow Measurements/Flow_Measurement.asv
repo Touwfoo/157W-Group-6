@@ -1,0 +1,43 @@
+clc
+close
+clear
+
+T = readtable('Flow_Measurement_Data.csv');
+
+rotameter_percentage = T.Rotameter_OfFlow;
+ambient_pressure = T.AmbientPressure_Pa_;
+sonic_gauge_pressure = T.SonicGaugePressue_Pa_;
+temp = T.Temperature__C_;
+closed_position = T.ClosedPosition_in_;
+current_position = T.CurrentPosition_in_;
+
+oriface_plate_absolute_pressure = T.OrifacePlate_AbsolutePressure_Pa_;
+orifice_plate_DP = [T.OrificePlateDP0_Pa_, T.OrificePlateDP1_Pa_, T.OrificePlateDP2_Pa_, T.OrificePlateDP3_Pa_, T.OrificePlateDP4_Pa_, T.OrificePlateDP5_Pa_];
+
+turbine_absolute_pressure = T.Turbine_AbsolutePressure_Pa_;
+turbine_freq = T.Count_Hz_;
+
+laminar_absolute_pressure = T.Laminar_AbsolutePressure_Pa_;
+laminar_pressure_drop = T.PressureDrop_in_;
+
+venturi_absolute_pressure = T.Venturi_AbsolutePressure_Pa_ *;
+venturi_DP = [T.VenturiDP0_Pa_, T.VenturiDP1_Pa_, T.VenturiDP2_Pa_, T.VenturiDP3_Pa_, T.VenturiDP4_Pa_, T.VenturiDP5_Pa_];
+
+%%
+
+mu = 186.1 / 1e7;
+rho = 1.1614; % kg / m^3
+venturi_D = 0.0520446; % m
+venturi_d = [0.0258064; vent_dia(0.5 * venturi_D); vent_dia(venturi_D); vent_dia(1.5 * venturi_D); vent_dia(2 * venturi_D); 0.0520446]; % m
+g = 9.81;
+gamma = 1.4;
+venturi_A = [pi * (venturi_D / 2).^2; pi * (venturi_d ./ 2).^2];
+m_dot_ideal = venturi_A(2) * sqrt((2 * g * rho * venturi_DP(:,2)) / (1 - (venturi_A(2) / venturi_A(1)))^2);
+venturi_Re = (m_dot_ideal * venturi_d(1)) / (venturi_A(2) * mu);
+venturi_p1 = venturi_absolute_pressure + venturi_DP(1);
+%venturi_Y = sqrt(()^(2 / gamma));
+
+function res = vent_dia(d)
+    venturi_angle = 7 * (pi / 180);
+    res = 0.0258064 + 2 * tan(venturi_angle) * (d - 0.0130048);
+end
