@@ -48,7 +48,17 @@ m_dot_venturi = m_dot_ideal .* C .* venturi_Y;
 % pressure recovery
 venturi_pressure_recovered = (venturi_absolute_pressure + venturi_DP) ./ venturi_absolute_pressure;
 tap_points = [0, 0.5 * venturi_D, 1 * venturi_D, 1.5 * venturi_D, 2 * venturi_D, 0.1450086];
-scatter(tap_points, venturi_pressure_recovered(2,:));
+
+figure(1);
+hold on
+for a = 1:11
+    plot(tap_points, venturi_pressure_recovered(a,:), '-o');
+end
+hold off
+title('Venturi pressure recovery');
+xlabel('Tap position from throat (x)');
+ylabel('Recovery %');
+legend('0% flow', '10% flow', '20% flow', '30% flow', '40% flow', '50% flow', '60% flow', '70% flow', '80% flow', '90% flow', '96% flow')
 
 %% orifice plate
 
