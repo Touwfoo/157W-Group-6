@@ -142,8 +142,8 @@ scatter(turbine_freq, venturi_flow_rate);
 plot(turbine_freq, turbine_y_fit);
 scatter(turbine_freq, turbine_theoretical_flow_rate);
 hold off
-title('Laminar Flow Meter CFM vs. Pressure Drop');
-xlabel('Turbine frequency (Hz)');
+title('Turbine Frequency vs. Flowrate');
+xlabel('Turbine frequency (kHz)');
 ylabel('Flowrate (CFM)');
 legend('Experimental', 'Fitted Experimental', 'Theoretical');
 
