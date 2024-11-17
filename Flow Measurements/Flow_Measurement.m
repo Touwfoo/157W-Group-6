@@ -16,7 +16,7 @@ orifice_plate_absolute_pressure = T.OrifacePlate_AbsolutePressure_Pa_;
 orifice_plate_DP = [T.OrificePlateDP0_Pa_, T.OrificePlateDP1_Pa_, T.OrificePlateDP2_Pa_, T.OrificePlateDP3_Pa_, T.OrificePlateDP5_Pa_];
 
 turbine_absolute_pressure = T.Turbine_AbsolutePressure_Pa_;
-turbine_freq = T.Count_Hz_;
+turbine_freq = T.Count_Hz_ ./ 1000; % kHz
 
 laminar_absolute_pressure = T.Laminar_AbsolutePressure_Pa_;
 laminar_pressure_drop = T.PressureDrop_in_;
@@ -26,7 +26,7 @@ venturi_DP = [T.VenturiDP0_Pa_, T.VenturiDP1_Pa_, T.VenturiDP2_Pa_, T.VenturiDP3
 
 %% venturi meter
 
-mu = 186.1 / 1e7;
+mu = 1.861e-5;
 rho = 1.1614; % kg / m^3
 venturi_D = 0.0520446; % m
 venturi_d = [0.0258064; vent_dia(0.5 * venturi_D); vent_dia(venturi_D); vent_dia(1.5 * venturi_D); 0.0520446]; % m
@@ -107,7 +107,63 @@ ylabel('Discharge coefficient');
 
 %% laminar flow meter
 
+venturi_flow_rate = (m_dot_venturi * rho) / 0.00047194745; % CFM
+laminar_pressure_drop_8 = laminar_pressure_drop ./ 8;
+laminar_polyfit = polyfit(laminar_pressure_drop_8, venturi_flow_rate, 1);
+laminar_polyfit_slope = laminar_polyfit(1);
+laminar_polyfit_intercept = laminar_polyfit(2);
+laminar_y_fit = polyval(laminar_polyfit, laminar_pressure_drop_8);
 
+laminar_theoretical_flow_rate = 40 * laminar_pressure_drop_8;
+
+figure(5);
+hold on
+scatter(laminar_pressure_drop_8, venturi_flow_rate);
+plot(laminar_pressure_drop_8, laminar_y_fit);
+scatter(laminar_pressure_drop_8, laminar_theoretical_flow_rate);
+hold off
+title('Laminar Flow Meter CFM vs. Pressure Drop');
+xlabel('Pressure drop (8'' H20)');
+ylabel('Flowrate (CFM)');
+legend('Experimental', 'Fitted Experimental', 'Theoretical');
+
+%% turbine flow meter
+
+turbine_polyfit = polyfit(turbine_freq, venturi_flow_rate, 1);
+turbine_polyfit_slope = turbine_polyfit(1);
+turbine_polyfit_intercept = turbine_polyfit(2);
+turbine_y_fit = polyval(turbine_polyfit, turbine_freq);
+
+turbine_theoretical_flow_rate = 40 * turbine_freq;
+
+figure(6);
+hold on
+scatter(turbine_freq, venturi_flow_rate);
+plot(turbine_freq, turbine_y_fit);
+scatter(turbine_freq, turbine_theoretical_flow_rate);
+hold off
+title('Laminar Flow Meter CFM vs. Pressure Drop');
+xlabel('Turbine frequency (Hz)');
+ylabel('Flowrate (CFM)');
+legend('Experimental', 'Fitted Experimental', 'Theoretical');
+
+%% rotameter
+
+rotameter_polyfit = polyfit(rotameter_percentage, venturi_flow_rate, 1);
+rotameter_polyfit_slope = rotameter_polyfit(1);
+rotameter_polyfit_intercept = rotameter_polyfit(2);
+
+rotameter_x_fit = [0, 100];
+rotameter_y_fit = rotameter_x_fit * rotameter_polyfit_slope + rotameter_polyfit_intercept;
+
+figure(7);
+hold on
+scatter(rotameter_percentage, venturi_flow_rate);
+plot(rotameter_x_fit, rotameter_y_fit);
+hold off
+title('Volume Flow Rate vs. Rotameter Percentage Indication');
+xlabel('Rotameter Percentage Indication');
+ylabel('Flowrate (CFM)');
 
 %% functions
 
