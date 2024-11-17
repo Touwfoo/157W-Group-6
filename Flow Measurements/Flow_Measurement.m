@@ -10,6 +10,7 @@ sonic_gauge_pressure = T.SonicGaugePressue_Pa_;
 temp = T.Temperature__C_;
 closed_position = T.ClosedPosition_in_;
 current_position = T.CurrentPosition_in_;
+sonic_h = 0.00254 .* (current_position - closed_position);
 
 orifice_plate_absolute_pressure = T.OrifacePlate_AbsolutePressure_Pa_;
 orifice_plate_DP = [T.OrificePlateDP0_Pa_, T.OrificePlateDP1_Pa_, T.OrificePlateDP2_Pa_, T.OrificePlateDP3_Pa_, T.OrificePlateDP5_Pa_];
@@ -56,7 +57,7 @@ for a = 1:11
 end
 hold off
 title('Venturi Pressure Recovery');
-xlabel('Tap position from throat (x)');
+xlabel('Tap position from throat (m)');
 ylabel('Recovery %');
 legend('0% flow', '10% flow', '20% flow', '30% flow', '40% flow', '50% flow', '60% flow', '70% flow', '80% flow', '90% flow', '96% flow')
 
@@ -86,12 +87,25 @@ for a = 1:11
 end
 hold off
 title('Orifice Plate Pressure Recovery vs. Location');
-xlabel('Tap position from throat (x)');
+xlabel('Tap position from throat (m)');
 ylabel('Recovery %');
 legend('0% flow', '10% flow', '20% flow', '30% flow', '40% flow', '50% flow', '60% flow', '70% flow', '80% flow', '90% flow', '96% flow')
 
 %% sonic nozzle
 
+sonic_D = 0.0079248;
+sonic_angle = 8.88 * (pi / 180);
+sonic_A = (pi / 4) .* (sonic_D^2 - (sonic_D - 2 .* sonic_h .* tan(sonic_angle)).^2);
+sonic_m_dot = sonic_A * (202438.7) * sqrt((2 * g) / (286.9 * 294.15)) * sqrt((gamma / (gamma + 1)) * (2 / (gamma + 1))^(2 / (gamma - 1)));
+sonic_C = m_dot_venturi ./ sonic_m_dot;
+
+figure(4);
+scatter(venturi_Re, sonic_C, 'filled');
+title('Sonic Nozzle Dicharge Coefficient vs. Reynolds Number');
+xlabel('Reynolds number');
+ylabel('Discharge coefficient');
+
+%% laminar flow meter
 
 
 
