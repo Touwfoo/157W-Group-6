@@ -73,7 +73,7 @@ orifice_C = m_dot_venturi ./ (orifice_Y .* orifice_m_dot_ideal);
 
 figure(2);
 scatter(venturi_Re, orifice_C, 'filled');
-title('Orifice Plate Dicharge Coefficient vs. Reynolds Number');
+title('Orifice Plate Discharge Coefficient vs. Reynolds Number');
 xlabel('Reynolds number');
 ylabel('Discharge coefficient');
 
@@ -101,7 +101,7 @@ sonic_C = m_dot_venturi ./ sonic_m_dot;
 
 figure(4);
 scatter(venturi_Re, sonic_C, 'filled');
-title('Sonic Nozzle Dicharge Coefficient vs. Reynolds Number');
+title('Sonic Nozzle Discharge Coefficient vs. Reynolds Number');
 xlabel('Reynolds number');
 ylabel('Discharge coefficient');
 
