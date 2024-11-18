@@ -34,7 +34,7 @@ g = 9.81;
 gamma = 1.4;
 venturi_A = [pi * (venturi_D / 2).^2; pi * (venturi_d ./ 2).^2];
 % ideal mass flow rate
-m_dot_ideal = venturi_A(2) * sqrt((2 * g * rho * venturi_DP(:,2)) / (1 - (venturi_A(2) / venturi_A(1)))^2);
+m_dot_ideal = venturi_A(2) * sqrt((2 * rho * venturi_DP(:,2)) / (1 - (venturi_A(2) / venturi_A(1))^2));
 % reynolds number at inlet #
 venturi_Re = (m_dot_ideal * venturi_D) / (venturi_A(1) * mu);
 venturi_p1 = venturi_absolute_pressure;
