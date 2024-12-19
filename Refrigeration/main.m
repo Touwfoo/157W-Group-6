@@ -57,17 +57,61 @@ PV diagrams for Capillary Tube (3)
 %}
 %Pressure controlled
 plot_hS(1, Trial3, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel('Enthalpy, h (kJ/kg)')
+title('h-S Diagram for Pressure Controlled Expansion Valve at 15psig')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 plot_TS(2, Trial3, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel(['Temperature, T (' char(176) 'C)'])
+title('T-S Diagram for Pressure Controlled Expansion Valve at 15psig')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 % Temperature controlled: high, high
 plot_hS(3, Trial5, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel('Enthalpy, h (kJ/kg)')
+title('h-S Diagram for Temperature Controlled Expansion Valve with Evaporator and Condenser Fans Set to High')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 plot_TS(4, Trial5, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel(['Temperature, T (' char(176) 'C)'])
+title('T-S Diagram for Temperature Controlled Expansion Valve with Evaporator and Condenser Fans Set to High')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 % Temperature controlled: high, low
 plot_hS(5, Trial6, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel('Enthalpy, h (kJ/kg)')
+title('h-S Diagram for Temperature Controlled Expansion Valve with Evaporator Fan Set to High and Condenser Fan Set to Low')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 plot_TS(6, Trial6, R12properties)
+xlabel('Entropy, S (kJ/kgK)')
+ylabel(['Temperature, T (' char(176) 'C)'])
+title('T-S Diagram for Temperature Controlled Expansion Valve with Evaporator Fan Set to High and Condenser Fan Set to Low')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 % Capillary tube: all conditions
 plot_PV(7, Trial7, R12properties)
+xlabel('Specific Volume, v (m^3/kg)')
+ylabel('Pressure, P (psia)')
+title('P-v Diagram for Capillary Tube Expander with Evaporator and Condenser Fans Set to High')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 plot_PV(8, Trial8, R12properties)
+xlabel('Specific Volume, v (m^3/kg)')
+ylabel('Pressure, P (psia)')
+title('P-v Diagram for Capillary Tube Expander with Evaporator Fan Set to High and Condenser Fan Set to Low')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+
 plot_PV(9, Trial9, R12properties)
+xlabel('Specific Volume, v (m^3/kg)')
+ylabel('Pressure, P (psia)')
+title('P-v Diagram for Capillary Tube Expander with Evaporator Fan Set to Low and Condenser Fan Set to High')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
 
 %% functions
 function out = approxSatProp(T, properties)
@@ -284,10 +328,23 @@ function out = processTrial(Trial, pure_data, properties)
             T4_real, P4_real, h4_real, S4_real, v4_real;];
 end
 
+function plot_quad(n_x, n_y, points)
+    % create the dotted lines for each of the functions
+    x = points(:,n_x);
+    y = points(:,n_y);
+    color = ['r', 'g', 'b'];
+    for n = 1:1:3
+        x_points = [x(1:3); x(3+n); x(1)];
+        y_points = [y(1:3); y(3+n); y(1)];
+        plot(x_points, y_points, '--', 'color', color(n), 'linewidth', 1)
+    end
+end
+
 function plot_hS(n, points, properties)
     figure(n)
-    plot(points(:,4), points(:,3), 'x', 'color', 'r', 'linewidth', 2)
+    plot(points(:,4), points(:,3), 'x', 'color', 'c', 'linewidth', 2)
     hold on
+    plot_quad(4, 3, points)
     plot(properties(:,6), properties(:,4), 'k', 'linewidth', 1)
     plot(properties(:,7), properties(:,5), 'k', 'linewidth', 1)
     hold off
@@ -295,8 +352,9 @@ end
 
 function plot_TS(n, points, properties)
     figure(n)
-    plot(points(:,4), points(:,1), 'x', 'color', 'r', 'linewidth', 2)
+    plot(points(:,4), points(:,1), 'x', 'color', 'c', 'linewidth', 2)
     hold on
+    plot_quad(4, 1, points)
     plot(properties(:,6), properties(:,1), 'k', 'linewidth', 1)
     plot(properties(:,7), properties(:,1), 'k', 'linewidth', 1)
     hold off
@@ -304,8 +362,9 @@ end
 
 function plot_PV(n, points, properties)
     figure(n)
-    plot(points(:,5), points(:,2), 'x', 'color', 'r', 'linewidth', 2)
+    plot(points(:,5), points(:,2), 'x', 'color', 'c', 'linewidth', 2)
     hold on
+    plot_quad(5, 2, points)
     plot(approxLiquidSV(properties(:,1)), properties(:,2), 'k', 'linewidth', 1)
     plot(properties(:,3), properties(:,2), 'k', 'linewidth', 1)
     hold off
