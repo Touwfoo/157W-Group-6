@@ -36,17 +36,45 @@ R12properties(:,2) = R12properties(:,2) * 14.5038; % unit conversion from bara t
 % columns: T[C], P_s[psia], v_i, h_f, h_g, S_f, S_g, h@15Cover, S@15Cover, h@30Cover, S@30Cover
 
 %% main code
-for n = 1:1:9
-    Trial1 = processTrial(n, data, R12properties);
-    plotTrial(n, Trial1, R12properties)
-end
+% Pressue controlled
+Trial1 = processTrial(1, data, R12properties); % 2psig
+Trial2 = processTrial(2, data, R12properties); % 7psig
+Trial3 = processTrial(3, data, R12properties); % 15psig
+Trial4 = processTrial(4, data, R12properties); % 30psig
+% Temperature controlled
+Trial5 = processTrial(5, data, R12properties); % evap high, cond high
+Trial6 = processTrial(6, data, R12properties); % high, low
+% Capillary Tube
+Trial7 = processTrial(7, data, R12properties); % high, high
+Trial8 = processTrial(8, data, R12properties); % high, low
+Trial9 = processTrial(9, data, R12properties); % low, high
+
+% Plots
+%{
+hS and TS diagram for Pressure controlled at 15psig (2)
+hS and TS diagram for Temperature controlled (4)
+PV diagrams for Capillary Tube (3)
+%}
+%Pressure controlled
+plot_hS(1, Trial3, R12properties)
+plot_TS(2, Trial3, R12properties)
+% Temperature controlled: high, high
+plot_hS(3, Trial5, R12properties)
+plot_TS(4, Trial5, R12properties)
+% Temperature controlled: high, low
+plot_hS(5, Trial6, R12properties)
+plot_TS(6, Trial6, R12properties)
+% Capillary tube: all conditions
+plot_PV(7, Trial7, R12properties)
+plot_PV(8, Trial8, R12properties)
+plot_PV(9, Trial9, R12properties)
 
 %% functions
 function out = approxSatProp(T, properties)
     % input temperature in celcius
     % output T[C] P_s[psia], v_i, h_f, h_g, S_f, S_g
     if T < -100
-        out = properties(1,:);
+        out = [properties(1,:), approxLiquidSV(-100)];
         % approximate at -100 *C
     elseif T > 112
         out = properties(end,:);
@@ -57,8 +85,8 @@ function out = approxSatProp(T, properties)
         while T > properties(n,1)
             n = n + 1;
         end
-        X_0 = properties(n-1,:); % properties at temperature below
-        X_1 = properties(n, :); % properties at temperature above
+        X_0 = [properties(n-1,:), approxLiquidSV(properties(n-1,1))]; % properties at temperature below
+        X_1 = [properties(n, :), approxLiquidSV(properties(n,1))]; % properties at temperature above
         out = X_0 + (X_1 - X_0).*(T-X_0(1))./(X_1(1)-X_0(1)); % linear approximation
     end
 end
@@ -67,10 +95,10 @@ end
 function out = approxPropByP(P, properties)
     % input pressure in psia
     % output T[C] P_s[psia], v_i, h_f, h_g, S_f, S_g
-     temp_prop = properties(1:0).*0;
+     temp_prop = zeros(1, length(properties(1,:)) + 1);
     % basically the same approximation for sat except with pressure
     if P < properties(1, 2)
-        temp_prop = properties(1,:);
+        temp_prop = [properties(1,:), approxLiquidSV(properties(1,1))];
         % approximate at -100 *C
     elseif P > properties(end, 2)
         temp_prop = properties(end,:);
@@ -81,8 +109,8 @@ function out = approxPropByP(P, properties)
         while P > properties(n,2)
             n = n + 1;
         end
-        X_0 = properties(n-1,:); % properties at temperature below
-        X_1 = properties(n, :); % properties at temperature above
+        X_0 = [properties(n-1,:), approxLiquidSV(properties(n-1,1))]; % properties at temperature below
+        X_1 = [properties(n, :), approxLiquidSV(properties(n,1))]; % properties at temperature above
         temp_prop = X_0 + (X_1 - X_0).*(P-X_0(2))./(X_1(2)-X_0(2)); % linear approximation
     end
     out = temp_prop;
@@ -90,12 +118,12 @@ end
 
 function out = approxSHPropByT(T, P, properties)
     % input Temperature in Celcius, Pressure is psia
-    % output T, P, h, S
+    % output T, P, h, S, vf, vg
     temp_prop = approxPropByP(P, properties);
     % interpolate again based on temperature
     if T < temp_prop(1)
         % that's not a superheated vapor, approximate as sat vapor
-        out = [T, P, temp_prop(5), temp_prop(7)];
+        out = [T, P, temp_prop(5), temp_prop(7), temp_prop(3)];
         return
     elseif T - temp_prop(1) <= 15
         % between 0 and 15 *C over the sat temp
@@ -111,7 +139,8 @@ function out = approxSHPropByT(T, P, properties)
     end
     h = temp_hS(1);
     S = temp_hS(2);
-    out = [T, P, h, S];
+    v = (T+273)/(temp_prop(1)+273)*temp_prop(3)*0.995;
+    out = [T, P, h, S, v];
 end
 
 function out = approxSHPropByS(S, P, properties)
@@ -121,7 +150,7 @@ function out = approxSHPropByS(S, P, properties)
     % interpolate again based on entropy
     if S < temp_prop(7)
         % that's not a superheated vapor, approximate as sat vapor
-        out = [temp_prop(1), P, temp_prop(5), S];
+        out = [temp_prop(1), P, temp_prop(5), S, temp_prop(3)];
         return
     elseif S <= temp_prop(9)
         % between entoropy for 0 and 15 *C over the sat temp
@@ -137,7 +166,8 @@ function out = approxSHPropByS(S, P, properties)
     end
     T = temp_Th(1);
     h = temp_Th(2);
-    out = [T, P, h, S];
+    v = (T+273)/(temp_prop(1)+273)*temp_prop(3)*0.995;
+    out = [T, P, h, S, v];
 end
 
 function out = approxSHPropByh(h, P, properties)
@@ -147,7 +177,7 @@ function out = approxSHPropByh(h, P, properties)
     % interpolate again based on entropy
     if h < temp_prop(5)
         % that's not a superheated vapor, approximate as sat vapor
-        out = [temp_prop(1), P, h, temp_prop(7)];
+        out = [temp_prop(1), P, h, temp_prop(7), temp_prop(3)];
         return
     elseif h <= temp_prop(8)
         % between enthalpy for 0 and 15 *C over the sat temp
@@ -163,7 +193,15 @@ function out = approxSHPropByh(h, P, properties)
     end
     T = temp_TS(1);
     S = temp_TS(2);
-    out = [T, P, h, S];
+    v = (T+273)/(temp_prop(1)+273)*temp_prop(3)*0.995;
+    out = [T, P, h, S, v];
+end
+
+% assume linear distribution for specific volume of liquid
+function out = approxLiquidSV(T)
+    % assume linear linear betweeen 250K and 300K
+    tempT = T + 273;
+    out = 1468^-1 + (1304^-1 - 1468^-1)*(tempT-250)/50;
 end
 
 function out = processTrial(Trial, pure_data, properties)
@@ -178,6 +216,7 @@ function out = processTrial(Trial, pure_data, properties)
     P1 = Pt1_properties(2);
     h1 = Pt1_properties(4);
     S1 = Pt1_properties(6);
+    v1 = Pt1_properties(12);
 
     % Point 2: after the expander, assume isenthalpic
     T2 = data(6);
@@ -191,6 +230,9 @@ function out = processTrial(Trial, pure_data, properties)
     Sf2 = Pt2_properties(6);
     Sg2 = Pt2_properties(7);
     S2 = x*Sg2 + (1 - x)*Sf2;
+    vf2 = Pt2_properties(12);
+    vg2 = Pt2_properties(3);
+    v2 = x*vg2 + (1 - x)*vf2;
 
     % Point 3: after the evaporator
     T3 = data(7);
@@ -199,6 +241,7 @@ function out = processTrial(Trial, pure_data, properties)
     Pt3_properties = approxSHPropByT(T3, P3, properties);
     h3 = Pt3_properties(3);
     S3 = Pt3_properties(4);
+    v3 = Pt3_properties(5);
 
     % Point 4: (experimental) after the compressor
     T4_exp = data(8);
@@ -207,6 +250,7 @@ function out = processTrial(Trial, pure_data, properties)
     Pt4_properties_exp = approxSHPropByT(T4_exp, P4_exp, properties);
     h4_exp = Pt4_properties_exp(3);
     S4_exp = Pt4_properties_exp(4);
+    v4_exp = Pt4_properties_exp(5);
 
     % Point 4: (ideal)
     S4_ideal = S3;
@@ -215,34 +259,55 @@ function out = processTrial(Trial, pure_data, properties)
     Pt4_properties_ideal = approxSHPropByS(S4_ideal, P4_ideal, properties);
     T4_ideal = Pt4_properties_ideal(1);
     h4_ideal = Pt4_properties_ideal(3);
+    v4_ideal = Pt4_properties_ideal(5);
 
     % Point 4: (real, no heat loss)
     V = data(18);
     I = data(16);
-    m_dot = data(14) * 60 /0.453592;
+    m_dot = data(14) /60 *0.453592;
     % unit check
     % V*A/ (lb/min) vs KJ/kg
     % * (1lb/0.453592kg) * (60s/min)
-    h4_real = V*I/m_dot + h3;
+    h4_real = V*I/m_dot *1E-3 + h3;
     P4_real = data(4);
     % interpolation based on h
     Pt4_properties_real = approxSHPropByh(h4_real, P4_real, properties);
     T4_real = Pt4_properties_real(1);
     S4_real = Pt4_properties_real(4);
+    v4_real = Pt4_properties_real(5);
 
-    out = [ T1, P1, h1, S1;
-            T2, P2, h2, S2;
-            T3, P3, h3, S3;
-            T4_exp, P4_exp, h4_exp, S4_exp;
-            T4_ideal, P4_ideal, h4_ideal, S4_ideal;
-            T4_real, P4_real, h4_real, S4_real;];
+    out = [ T1, P1, h1, S1, v1;
+            T2, P2, h2, S2, v2;
+            T3, P3, h3, S3, v3;
+            T4_exp, P4_exp, h4_exp, S4_exp, v4_exp;
+            T4_ideal, P4_ideal, h4_ideal, S4_ideal, v4_ideal;
+            T4_real, P4_real, h4_real, S4_real, v4_real;];
 end
 
-function plotTrial(n, points, properties)
-    figure(n) %T-S diagram
+function plot_hS(n, points, properties)
+    figure(n)
+    plot(points(:,4), points(:,3), 'x', 'color', 'r', 'linewidth', 2)
+    hold on
+    plot(properties(:,6), properties(:,4), 'k', 'linewidth', 1)
+    plot(properties(:,7), properties(:,5), 'k', 'linewidth', 1)
+    hold off
+end
+
+function plot_TS(n, points, properties)
+    figure(n)
     plot(points(:,4), points(:,1), 'x', 'color', 'r', 'linewidth', 2)
     hold on
-    plot(properties(:,6), properties(:,1), 'k', 'linewidth', 2)
-    plot(properties(:,7), properties(:,1), 'k', 'linewidth', 2)
+    plot(properties(:,6), properties(:,1), 'k', 'linewidth', 1)
+    plot(properties(:,7), properties(:,1), 'k', 'linewidth', 1)
     hold off
+end
+
+function plot_PV(n, points, properties)
+    figure(n)
+    plot(points(:,5), points(:,2), 'x', 'color', 'r', 'linewidth', 2)
+    hold on
+    plot(approxLiquidSV(properties(:,1)), properties(:,2), 'k', 'linewidth', 1)
+    plot(properties(:,3), properties(:,2), 'k', 'linewidth', 1)
+    hold off
+    xlim([0, max(points(:,5))*1.2])
 end
