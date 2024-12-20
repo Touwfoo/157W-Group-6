@@ -400,6 +400,20 @@ function plot_quad(n_x, n_y, points)
     end
 end
 
+function plot_hex(n_x, n_y, points, properties)
+    % create the dotted lines for each of the functions
+    x = points(:,n_x);
+    y = points(:,n_y);
+    color = ['r', 'g', 'b'];
+    for n = 1:1:3
+        temp_prop3 = approxSatProp(points(3,1), properties);
+        temp_prop1 = approxSatProp(points(1,1), properties);
+        x_points = [x(1:2); temp_prop3(7); x(3); x(3+n); temp_prop1(7); x(1)];
+        y_points = [y(1:2); y(2); y(3); y(3+n); y(1); y(1)];
+        plot(x_points, y_points, '--', 'color', color(n), 'linewidth', 1)
+    end
+end
+
 function plot_hS(n, points, properties)
     figure(n)
     plot(points(:,4), points(:,3), 'x', 'color', 'c', 'linewidth', 2)
@@ -414,7 +428,7 @@ function plot_TS(n, points, properties, other_data)
     figure(n)
     plot(points(:,4), points(:,1), 'x', 'color', 'c', 'linewidth', 2)
     hold on
-    plot_quad(4, 1, points)
+    plot_hex(4, 1, points, properties)
     yline(other_data(12), '--', 'color', 'k', 'linewidth', 1)
     plot(properties(:,6), properties(:,1), 'k', 'linewidth', 1)
     plot(properties(:,7), properties(:,1), 'k', 'linewidth', 1)
