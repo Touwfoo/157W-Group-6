@@ -61,12 +61,16 @@ xlabel('Entropy, S (kJ/kgK)')
 ylabel('Enthalpy, h (kJ/kg)')
 title('h-S Diagram for Pressure Controlled Expansion Valve at 15psig')
 legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+xlim([0.2 1.2])
+ylim([50 350])
 
-plot_TS(2, Trial3, R12properties)
+plot_TS(2, Trial3, R12properties, data)
 xlabel('Entropy, S (kJ/kgK)')
 ylabel(['Temperature, T (' char(176) 'C)'])
 title('T-S Diagram for Pressure Controlled Expansion Valve at 15psig')
-legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Inlet Air Temperature', 'Saturation Dome')
+xlim([0.2 1.2])
+ylim([-20 250])
 
 % Temperature controlled: high, high
 plot_hS(3, Trial5, R12properties)
@@ -74,25 +78,33 @@ xlabel('Entropy, S (kJ/kgK)')
 ylabel('Enthalpy, h (kJ/kg)')
 title('h-S Diagram for Temperature Controlled Expansion Valve with Evaporator and Condenser Fans Set to High')
 legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+xlim([0.2 1])
+ylim([50 350])
 
-plot_TS(4, Trial5, R12properties)
+plot_TS(4, Trial5, R12properties, data)
 xlabel('Entropy, S (kJ/kgK)')
 ylabel(['Temperature, T (' char(176) 'C)'])
 title('T-S Diagram for Temperature Controlled Expansion Valve with Evaporator and Condenser Fans Set to High')
-legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Inlet Air Temperature', 'Saturation Dome')
+xlim([0.2 1])
+ylim([-20 200])
 
 % Temperature controlled: high, low
 plot_hS(5, Trial6, R12properties)
 xlabel('Entropy, S (kJ/kgK)')
 ylabel('Enthalpy, h (kJ/kg)')
 title('h-S Diagram for Temperature Controlled Expansion Valve with Evaporator Fan Set to High and Condenser Fan Set to Low')
-legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+legend('Data Points', 'Experimental', 'Ideal', 'Real','Saturation Dome')
+xlim([0.2 1])
+ylim([50 350])
 
-plot_TS(6, Trial6, R12properties)
+plot_TS(6, Trial6, R12properties, data)
 xlabel('Entropy, S (kJ/kgK)')
 ylabel(['Temperature, T (' char(176) 'C)'])
 title('T-S Diagram for Temperature Controlled Expansion Valve with Evaporator Fan Set to High and Condenser Fan Set to Low')
-legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Inlet Air Temperature',  'Saturation Dome')
+xlim([0.2 1])
+ylim([0 175])
 
 % Capillary tube: all conditions
 plot_PV(7, Trial7, R12properties)
@@ -100,18 +112,64 @@ xlabel('Specific Volume, v (m^3/kg)')
 ylabel('Pressure, P (psia)')
 title('P-v Diagram for Capillary Tube Expander with Evaporator and Condenser Fans Set to High')
 legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+xlim([-0.02 0.1])
+ylim([30 200])
 
 plot_PV(8, Trial8, R12properties)
 xlabel('Specific Volume, v (m^3/kg)')
 ylabel('Pressure, P (psia)')
 title('P-v Diagram for Capillary Tube Expander with Evaporator Fan Set to High and Condenser Fan Set to Low')
 legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+xlim([-0.02 0.1])
+ylim([30 250])
 
 plot_PV(9, Trial9, R12properties)
 xlabel('Specific Volume, v (m^3/kg)')
 ylabel('Pressure, P (psia)')
 title('P-v Diagram for Capillary Tube Expander with Evaporator Fan Set to Low and Condenser Fan Set to High')
 legend('Data Points', 'Experimental', 'Ideal', 'Real', 'Saturation Dome')
+xlim([-0.02 0.1])
+ylim([30 200])
+
+% calculate the COP, RC, RHR, Superheat of system
+Calcs = zeros(9,7);
+Calcs(1,:) = calculate_values(Trial1, data(1,:), R12properties);
+Calcs(2,:) = calculate_values(Trial2, data(2,:), R12properties);
+Calcs(3,:) = calculate_values(Trial3, data(3,:), R12properties);
+Calcs(4,:) = calculate_values(Trial4, data(4,:), R12properties);
+Calcs(5,:) = calculate_values(Trial5, data(5,:), R12properties);
+Calcs(6,:) = calculate_values(Trial6, data(6,:), R12properties);
+Calcs(7,:) = calculate_values(Trial7, data(7,:), R12properties);
+Calcs(8,:) = calculate_values(Trial8, data(8,:), R12properties);
+Calcs(9,:) = calculate_values(Trial9, data(9,:), R12properties);
+
+% plot COP as func of inlet pressure
+figure(10)
+Inlet_Pressure = [2 7 15 30];
+plot(Inlet_Pressure, Calcs(1:4,1), 'x', 'color', 'r', 'linewidth', 2)
+hold on
+plot(Inlet_Pressure, Calcs(1:4, 2), 'o', 'color', 'b', 'linewidth', 2)
+COP_polyfit_ideal = polyfit(Inlet_Pressure, Calcs(1:4, 1), 1);
+COP_polyfit_exp = polyfit(Inlet_Pressure, Calcs(1:4, 2), 1);
+plot(Inlet_Pressure, COP_polyfit_ideal(1)*Inlet_Pressure + COP_polyfit_ideal(2), '--', 'color', 'r', 'linewidth', 1)
+plot(Inlet_Pressure, COP_polyfit_exp(1)*Inlet_Pressure + COP_polyfit_exp(2), '--', 'color', 'b', 'linewidth', 1)
+hold off
+xlabel('Inlet Pressure (psig)')
+ylabel('COP')
+title('COP of Pressure Regulated Expansion Valve at Varying Inlet Pressures')
+legend('COP Ideal', 'COP Experimental', 'COP Ideal Trendline', 'COP Experimental Trendline')
+
+% plot RC as a func of inlet pressure
+figure(11)
+plot(Inlet_Pressure, Calcs(1:4,3), 'x', 'color', 'r', 'linewidth', 2)
+hold on
+RC_polyfit = polyfit(Inlet_Pressure, Calcs(1:4, 3), 1);
+plot(Inlet_Pressure, RC_polyfit(1)*Inlet_Pressure + RC_polyfit(2), '--', 'color', 'r', 'linewidth', 1)
+hold off
+xlabel('Inlet Pressure (psig)')
+ylabel('Refrigeration Capacity, RC')
+title('Refrigeration Capacity of Pressure Regulated Expansion Valve at Varying Inlet Pressures')
+legend('RC data', 'RC Trendline')
 
 %% functions
 function out = approxSatProp(T, properties)
@@ -288,7 +346,7 @@ function out = processTrial(Trial, pure_data, properties)
     v3 = Pt3_properties(5);
 
     % Point 4: (experimental) after the compressor
-    T4_exp = data(8);
+    T4_exp = data(9);
     P4_exp = data(4);
     % interpolate the superheated properties
     Pt4_properties_exp = approxSHPropByT(T4_exp, P4_exp, properties);
@@ -350,11 +408,12 @@ function plot_hS(n, points, properties)
     hold off
 end
 
-function plot_TS(n, points, properties)
+function plot_TS(n, points, properties, other_data)
     figure(n)
     plot(points(:,4), points(:,1), 'x', 'color', 'c', 'linewidth', 2)
     hold on
     plot_quad(4, 1, points)
+    yline(other_data(12), '--', 'color', 'k', 'linewidth', 1)
     plot(properties(:,6), properties(:,1), 'k', 'linewidth', 1)
     plot(properties(:,7), properties(:,1), 'k', 'linewidth', 1)
     hold off
@@ -369,4 +428,21 @@ function plot_PV(n, points, properties)
     plot(properties(:,3), properties(:,2), 'k', 'linewidth', 1)
     hold off
     xlim([0, max(points(:,5))*1.2])
+end
+
+function out = calculate_values(points, other_data, properties)
+    m_dot = other_data(14) /60 *0.453592;
+    %COP ideal, exp
+    COP_ideal = (points(3,3) - points(2,3))/(points(5,3) - points(3,3));
+    COP_exp = (points(3,3) - points(2,3))/(other_data(18)*other_data(16)/m_dot)*1E3;
+    % REfrigeration Capacity
+    RC = m_dot*(points(3,3) - points(2,3));
+    % Rate of Heat Rejection
+    RHR_exp = m_dot*(points(4,3) - points(1,1));
+    RHR_ideal = m_dot*(points(5,3) - points(1,1));
+    RHR_real = m_dot*(points(6,3) - points(1,1));
+    % Superheating - amount of enthalpy over saturation - point 3
+    temp = approxSatProp(points(3,1), properties); % to find sat vapor h_g
+    Q_SH = m_dot*(points(3,3)- temp(4));
+    out = [COP_ideal, COP_exp, RC, RHR_exp, RHR_ideal, RHR_real, Q_SH];
 end
